@@ -1,6 +1,6 @@
 ## Tiralabra
 
-Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahmon ympärille tämän yrittäessä pois pelialueelta.
+Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahmon ympärille tämän yrittäessä pois pelialueelta. ([tähän tyyliin](https://www.crazygames.com/game/circle-the-cat))
 
 ### Dokumentaatio
 
