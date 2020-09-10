@@ -11,4 +11,4 @@ Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahm
 
 ### Koodi
 
-[Karkaava kissa](https://github.com/selsama/tiralabra/tree/master/karkaavakissa)
+[Karkaava kissa](https://github.com/selsama/tiralabra/tree/master/KarkuKatti)
