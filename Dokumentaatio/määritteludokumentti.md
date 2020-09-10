@@ -4,8 +4,6 @@ Sonja Salmi, TKT, projekti suomeksi.
 
 Toteutan yhden pelaajan pelin, jota pelasin vuosia sitten jollain nettisivulla. Idea on seuraava: Pelilautana toimii ruudukko. Lähtötilanteessa lauta on tyhjä ja sen keskellä on kissa. Pelaajan tavoitteena on estää kissaa karkaamasta pelilaudalta muuttamalla yksi kerrallaan ruutuja seiniksi. Peli etenee siten, että pelaaja napsauttaa hiirellä valitsemaansa ruutua laudalla, joka muuttuu seinäksi. Tämän jälkeen kissa siirtyy yhden ruudun ylös, alas, vasemmalle tai oikealle. Kissa ei voi siirtyä seinäruutuun eikä pelaaja voi muuttaa ruutua, jossa kissa on, seinäksi.
 
-Työssä ratkaistava ongelma on lyhimmän polun etsimistä labyrintissä. Lyhimmän polun etsimiseen tekoäly (kissa) käyttää leveyshakua. Työssä tarvittavia tietorakenteita ovat taulukot, listat ja jono. Tekoäly käsittää pelilaudan verkkona. Ohjelma tarvitsee myös jonkinlaisen satunnaistusfunktion.
+Toteutan työhön min-max-algortimin, jota tekoäly (kissa) käyttää parhaan siirron valitsemiseen. En vielä tiedä, kuinka monta tasoa alaspäin tekoäly tutkisi vaihtoehtoja (vaikuttaa aikavaativuuteen, varmaan kokeilen muutamaa vaihtoehtoa, mikä tuntuisi sopivan "fiksulta" ja toisaalta tarpeeksi nopealta. O(n^2), O(n^3) luokassa varmaankin, missä n on pelilaudan koko.). Min-max-algoritmi tarvitsee arvion kunkin tilanteen "hyvyydestä" tekoälyn kannalta, ja tämän arvioimiseen käyttäisin jonkinnäköistä yhdistelmää jäljellä olevien lyhimpien reittien määrää ja pituutta. Niiden laskemiseen algoritmi käyttää leveyshakua. Ohjelma tarvitsee tietorakenteina ainakin listaa, jonoa, ja taulukkoa. Lisäksi jonkinlainen satunnaistaminen tullee tarpeeseen. 
 
 Ohjelma saa syötteenä käyttäjältä klikkauksia.
-
-Koska kyseessä on peli, tavoitteena on pitää aika- ja tilavaativuuden mahdollisimman pieninä.
