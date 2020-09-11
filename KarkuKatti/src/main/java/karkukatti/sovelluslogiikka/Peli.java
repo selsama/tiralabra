@@ -15,6 +15,10 @@ public class Peli {
     private Sijainti kissanSijainti;
     private boolean peliOhi;
     
+    /**
+     * Luo uuden Peli-instanssin annetussa koossa.
+     * @param koko Haluttu pelialueen koko
+     */
     public Peli(int koko) {
         seinat = new boolean[koko][koko];
         kissanVuoro = false;

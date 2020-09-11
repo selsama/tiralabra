@@ -63,6 +63,9 @@ public class KattiKayttol extends Application {
         
     }
     
+    /**
+     * Tekee pelinakyma-scenen.
+     */
     public void teePelinakyma() {
         pelialue = this.teePelilauta();
         kaikki.getChildren().clear();
@@ -73,6 +76,10 @@ public class KattiKayttol extends Application {
         });
     }
     
+    /**
+     * Tekee ja palauttaa pelilaudan, joka muodostuu neliöistä.
+     * @return luotu pelilauta
+     */
     public Pane teePelilauta() {
         int koko = this.peli.getKoko();
         this.pelilauta = new Rectangle[koko][koko];
@@ -88,6 +95,9 @@ public class KattiKayttol extends Application {
         return alue;
     }
     
+    /**
+     * Tekee asetusnäkymän.
+     */
     public void teeAsetusnakyma() {
         Pane asetukset = new BorderPane();
         kaikki.getChildren().clear();
@@ -95,6 +105,11 @@ public class KattiKayttol extends Application {
         asetusnakyma = new Scene(kaikki, 500, 500);
     }
     
+    /**
+     * Käsittelee hiiren klikkauksen. Kutsuu peliä asiaankuuluvasti. Tarkistaa että klikkaus sijoittuu pelilaudalle.
+     * @param x Klikatun kohdan x-koordinaatti
+     * @param y Klikatun kohdan y-koordinaatti
+     */
     public void reagoiKlikkaukseen(int x, int y) {
         x -= 5;
         x /= 25;
