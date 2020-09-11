@@ -18,40 +18,48 @@ import javafx.stage.Stage;
         
 public class KattiKayttol extends Application {
     
-    private Scene nakyma;
     private Scene pelinakyma;
     private Stage ikkuna;
     private Peli peli;
     private Rectangle[][] pelilauta;
     private HBox ylavalikko;
     private Label vuoro;
-    
+    private Button uusiPeliNappi;
+    private Pane pelialue;
+    private VBox kaikki;
+
     @Override
     public void init() {
-        Label hei = new Label("hei maailma");
-        nakyma = new Scene(hei, 500, 500);
         this.peli = new Peli(10);
+        this.vuoro = new Label("Pelaajan vuoro");
+        this.uusiPeliNappi = new Button("Uusi peli");
+        uusiPeliNappi.setOnAction(e -> {
+            this.peli = new Peli(this.peli.getKoko());
+            this.teePelinakyma();
+        });
         this.ylavalikko = new HBox(10);
         ylavalikko.setPrefHeight(30);
+        ylavalikko.getChildren().addAll(uusiPeliNappi, vuoro);
+        this.kaikki = new VBox();
+        this.pelialue = new Pane();
+        this.kaikki.getChildren().addAll(ylavalikko, pelialue);
     }
     
     @Override
     public void start(Stage primarystage) throws Exception {
         ikkuna = primarystage;
         ikkuna.setTitle("Karkukatti");
-        this.teePelinakyma();
+        this.teePelinakyma();       
         ikkuna.setScene(pelinakyma);
         ikkuna.show();
         
     }
     
     public void teePelinakyma() {
-        Button nappi = new Button("Nappi!");
-        vuoro = new Label("Pelaajan vuoro");
-        ylavalikko.getChildren().addAll(nappi, vuoro);
-        VBox alue = new VBox();
-        alue.getChildren().addAll(ylavalikko, this.teePelilauta());
-        pelinakyma = new Scene(alue, 500, 500);
+        pelialue = this.teePelilauta();
+        kaikki.getChildren().clear();
+        kaikki.getChildren().addAll(ylavalikko, pelialue);
+        pelinakyma = new Scene(kaikki, 500, 500);
         pelinakyma.setOnMousePressed(e -> {
             this.reagoiKlikkaukseen((int) e.getSceneX(), (int) e.getSceneY());
         });
