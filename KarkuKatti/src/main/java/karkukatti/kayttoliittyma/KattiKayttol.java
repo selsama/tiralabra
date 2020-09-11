@@ -6,11 +6,11 @@
 package karkukatti.kayttoliittyma;
 
 import karkukatti.sovelluslogiikka.Peli;
+import karkukatti.sovelluslogiikka.Sijainti;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -23,15 +23,16 @@ public class KattiKayttol extends Application {
     private Stage ikkuna;
     private Peli peli;
     private Rectangle[][] pelilauta;
-    private HBox valikko;
+    private HBox ylavalikko;
+    private Label vuoro;
     
     @Override
     public void init() {
         Label hei = new Label("hei maailma");
         nakyma = new Scene(hei, 500, 500);
         this.peli = new Peli(10);
-        this.valikko = new HBox(10);
-        valikko.setPrefHeight(30);
+        this.ylavalikko = new HBox(10);
+        ylavalikko.setPrefHeight(30);
     }
     
     @Override
@@ -46,10 +47,10 @@ public class KattiKayttol extends Application {
     
     public void teePelinakyma() {
         Button nappi = new Button("Nappi!");
-        Label vuoro = new Label("Kissan vuoro");
-        valikko.getChildren().addAll(nappi, vuoro);
+        vuoro = new Label("Pelaajan vuoro");
+        ylavalikko.getChildren().addAll(nappi, vuoro);
         VBox alue = new VBox();
-        alue.getChildren().addAll(valikko, this.teePelilauta());
+        alue.getChildren().addAll(ylavalikko, this.teePelilauta());
         pelinakyma = new Scene(alue, 500, 500);
         pelinakyma.setOnMousePressed(e -> {
             this.reagoiKlikkaukseen((int) e.getSceneX(), (int) e.getSceneY());
@@ -67,6 +68,7 @@ public class KattiKayttol extends Application {
                 alue.getChildren().add(pelilauta[i][j]);
             }
         }
+        pelilauta[peli.getKissanSijainti().getX()][peli.getKissanSijainti().getY()].setFill(Color.BROWN);
         return alue;
     }
     
@@ -76,12 +78,25 @@ public class KattiKayttol extends Application {
         y -= 35;
         y /= 25;
         if ( 0 <= x && x < pelilauta.length && 0 <= y && y < pelilauta.length) {
-            if( this.peli.reagoiKlikkaukseen(x, y)) {
-                pelilauta[x][y].setFill(Color.GREENYELLOW);
+            Sijainti s = peli.getKissanSijainti();
+            boolean kissanVuoro = peli.getKissanVuoro();
+            if (this.peli.reagoiKlikkaukseen(x, y)) {
+                if (kissanVuoro) {
+                    pelilauta[s.getX()][s.getY()].setFill(Color.BLUEVIOLET);
+                    pelilauta[x][y].setFill(Color.BROWN);
+                    vuoro.setText("Pelaajan vuoro");
+                }
+                else {
+                    pelilauta[x][y].setFill(Color.GREENYELLOW);
+                    vuoro.setText("Kissan vuoro");
+                }
+            }
+            else {
+                vuoro.setText("Siirto ei sallittu. " + vuoro.getText());
             }
         }
         else {
-            valikko.getChildren().add(new Label("huti!"+x+y));
+            vuoro.setText("Klikkasit ohi laudasta. " + vuoro.getText());
         }
     }
     
