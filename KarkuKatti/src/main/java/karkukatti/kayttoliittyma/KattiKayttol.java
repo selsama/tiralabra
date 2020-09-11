@@ -86,7 +86,7 @@ public class KattiKayttol extends Application {
         Pane alue = new BorderPane();
         for (int i = 0; i < koko; i++) {
             for (int j = 0; j < koko; j++) {
-                pelilauta[i][j] = new Rectangle(5+25*i, 5+25*j, 20, 20);
+                pelilauta[i][j] = new Rectangle(5 + (25 * i), 5 + (25 * j), 20, 20);
                 pelilauta[i][j].setFill(Color.BLUEVIOLET);
                 alue.getChildren().add(pelilauta[i][j]);
             }
@@ -115,7 +115,7 @@ public class KattiKayttol extends Application {
         x /= 25;
         y -= 35;
         y /= 25;
-        if ( 0 <= x && x < pelilauta.length && 0 <= y && y < pelilauta.length) {
+        if (0 <= x && x < pelilauta.length && 0 <= y && y < pelilauta.length) {
             Sijainti s = peli.getKissanSijainti();
             boolean kissanVuoro = peli.getKissanVuoro();
             if (this.peli.reagoiKlikkaukseen(x, y)) {
@@ -123,17 +123,14 @@ public class KattiKayttol extends Application {
                     pelilauta[s.getX()][s.getY()].setFill(Color.BLUEVIOLET);
                     pelilauta[x][y].setFill(Color.BROWN);
                     vuoro.setText("Pelaajan vuoro");
-                }
-                else {
+                } else {
                     pelilauta[x][y].setFill(Color.GREENYELLOW);
                     vuoro.setText("Kissan vuoro");
                 }
-            }
-            else {
+            } else {
                 vuoro.setText("Siirto ei sallittu. " + vuoro.getText());
             }
-        }
-        else {
+        } else {
             vuoro.setText("Klikkasit ohi laudasta. " + vuoro.getText());
         }
     }

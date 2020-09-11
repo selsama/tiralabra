@@ -44,13 +44,11 @@ public class Peli {
                 return true;
             }
             return false;
-        }
-        else {
+        } else {
             if (this.teeSeina(s)) {
                 kissanVuoro = true;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }

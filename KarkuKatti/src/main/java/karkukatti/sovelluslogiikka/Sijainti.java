@@ -36,7 +36,7 @@ public class Sijainti {
      * @return True, jos x- ja y-koordinaatit ovat samat. Muuten false.
      */
     public boolean onSama(Sijainti s) {
-        if(this.x == s.getX() && this.y == s.getY()) {
+        if (this.x == s.getX() && this.y == s.getY()) {
             return true;
         }
         return false;
