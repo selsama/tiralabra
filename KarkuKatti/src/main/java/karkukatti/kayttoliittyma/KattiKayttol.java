@@ -19,12 +19,14 @@ import javafx.stage.Stage;
 public class KattiKayttol extends Application {
     
     private Scene pelinakyma;
+    private Scene asetusnakyma;
     private Stage ikkuna;
     private Peli peli;
     private Rectangle[][] pelilauta;
     private HBox ylavalikko;
     private Label vuoro;
     private Button uusiPeliNappi;
+    private Button asetuksetNappi;
     private Pane pelialue;
     private VBox kaikki;
 
@@ -36,10 +38,16 @@ public class KattiKayttol extends Application {
         uusiPeliNappi.setOnAction(e -> {
             this.peli = new Peli(this.peli.getKoko());
             this.teePelinakyma();
+            this.ikkuna.setScene(pelinakyma);
+        });
+        asetuksetNappi = new Button("Asetukset");
+        asetuksetNappi.setOnAction(e -> {
+            this.teeAsetusnakyma();
+            this.ikkuna.setScene(asetusnakyma);
         });
         this.ylavalikko = new HBox(10);
         ylavalikko.setPrefHeight(30);
-        ylavalikko.getChildren().addAll(uusiPeliNappi, vuoro);
+        ylavalikko.getChildren().addAll(uusiPeliNappi, asetuksetNappi, vuoro);
         this.kaikki = new VBox();
         this.pelialue = new Pane();
         this.kaikki.getChildren().addAll(ylavalikko, pelialue);
@@ -78,6 +86,13 @@ public class KattiKayttol extends Application {
         }
         pelilauta[peli.getKissanSijainti().getX()][peli.getKissanSijainti().getY()].setFill(Color.BROWN);
         return alue;
+    }
+    
+    public void teeAsetusnakyma() {
+        Pane asetukset = new BorderPane();
+        kaikki.getChildren().clear();
+        kaikki.getChildren().addAll(ylavalikko, asetukset);
+        asetusnakyma = new Scene(kaikki, 500, 500);
     }
     
     public void reagoiKlikkaukseen(int x, int y) {
