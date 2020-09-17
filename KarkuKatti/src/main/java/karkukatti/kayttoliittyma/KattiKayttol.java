@@ -25,6 +25,7 @@ public class KattiKayttol extends Application {
     private Rectangle[][] pelilauta;
     private HBox ylavalikko;
     private Label vuoro;
+    private Label ilmoitus;
     private Button uusiPeliNappi;
     private Button asetuksetNappi;
     private Pane pelialue;
@@ -32,7 +33,9 @@ public class KattiKayttol extends Application {
     @Override
     public void init() {
         this.peli = new Peli(10);
-        this.vuoro = new Label("Pelaajan vuoro");
+        this.vuoro = new Label();
+        this.ilmoitus = new Label();
+        ilmoitus.setTextFill(Color.RED);
         this.uusiPeliNappi = new Button("Uusi peli");
         uusiPeliNappi.setOnAction(e -> {
             this.peli = new Peli(this.peli.getKoko());
@@ -46,7 +49,7 @@ public class KattiKayttol extends Application {
         });
         this.ylavalikko = new HBox(10);
         ylavalikko.setPrefHeight(30);
-        ylavalikko.getChildren().addAll(uusiPeliNappi, asetuksetNappi, vuoro);
+        ylavalikko.getChildren().addAll(uusiPeliNappi, asetuksetNappi, vuoro, ilmoitus);
         this.pelialue = new Pane();
     }
     
@@ -71,6 +74,7 @@ public class KattiKayttol extends Application {
         pelinakyma.setOnMousePressed(e -> {
             this.reagoiKlikkaukseen((int) e.getSceneX(), (int) e.getSceneY());
         });
+        vuoro.setText("Pelaaja aloittaa");
     }
     
     /**
@@ -124,11 +128,12 @@ public class KattiKayttol extends Application {
                     pelilauta[x][y].setFill(Color.GREENYELLOW);
                     vuoro.setText("Kissan vuoro");
                 }
+                ilmoitus.setText("");
             } else {
-                vuoro.setText("Siirto ei sallittu. " + vuoro.getText());
+                ilmoitus.setText("Siirto ei sallittu.");
             }
         } else {
-            vuoro.setText("Klikkasit ohi laudasta. " + vuoro.getText());
+            ilmoitus.setText("Klikkasit ohi laudasta.");
         }
     }
     
