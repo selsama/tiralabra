@@ -14,6 +14,8 @@ public class Peli {
     private boolean kissanVuoro;
     private Sijainti kissanSijainti;
     private boolean peliOhi;
+    private boolean kissaVoitti;
+    private Tekoaly tekoaly;
     
     /**
      * Luo uuden Peli-instanssin annetussa koossa.
@@ -37,21 +39,48 @@ public class Peli {
         if (kissanVuoro) {
             // liikuta kissaa, jos onnistuu; jossei, palauta false
             if (this.siirraKissaa(s)) {
-                if (this.voittikoKissa()) {
-                    peliOhi = true;
-                }
-                kissanVuoro = false;
+                this.vaihdaVuoroa();
                 return true;
             }
             return false;
         } else {
             if (this.teeSeina(s)) {
-                kissanVuoro = true;
+                this.vaihdaVuoroa();
                 return true;
-            } else {
-                return false;
+            }
+            return false;
+        }
+    }
+    
+    /**
+     * Peli vaihtaa vuoroa. Eli tarkistaa, loppuiko peli; ja jossei, vaihtaa vuoroa kissalta pelaajalle tai toisinpäin.
+     */
+    private void vaihdaVuoroa() {
+        if (kissanVuoro) {
+            if (this.voittikoKissa()) {
+                peliOhi = true;
+                kissaVoitti = true;
+            }
+            kissanVuoro = false;
+        } else {
+            if (this.havisikoKissa()) {
+                peliOhi = true;
+                kissaVoitti = false;
             }
         }
+    }
+    
+    /**
+     * Metodi kutsuu tekoälyä valitsemaan siirron, ja tekee valitun siirron.
+     */
+    private void tekoalyPelaa() {
+        Sijainti s = tekoaly.laskeSiirto();
+        if (kissanVuoro) {
+            this.siirraKissaa(s);
+        } else {
+            this.teeSeina(s);
+        }
+        this.vaihdaVuoroa();
     }
     
     /**
@@ -97,6 +126,12 @@ public class Peli {
         if (kissanSijainti.getY() == 0 || kissanSijainti.getY() == seinat.length - 1) {
             return true;
         }
+        return false;
+    }
+    
+    private boolean havisikoKissa() {
+        this.tekoaly.leveyshaku(seinat, kissanSijainti);
+        //if(noRoutes) --> return true
         return false;
     }
     
