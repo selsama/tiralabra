@@ -28,7 +28,6 @@ public class KattiKayttol extends Application {
     private Button uusiPeliNappi;
     private Button asetuksetNappi;
     private Pane pelialue;
-    private VBox kaikki;
 
     @Override
     public void init() {
@@ -48,9 +47,7 @@ public class KattiKayttol extends Application {
         this.ylavalikko = new HBox(10);
         ylavalikko.setPrefHeight(30);
         ylavalikko.getChildren().addAll(uusiPeliNappi, asetuksetNappi, vuoro);
-        this.kaikki = new VBox();
         this.pelialue = new Pane();
-        this.kaikki.getChildren().addAll(ylavalikko, pelialue);
     }
     
     @Override
@@ -68,7 +65,7 @@ public class KattiKayttol extends Application {
      */
     public void teePelinakyma() {
         pelialue = this.teePelilauta();
-        kaikki.getChildren().clear();
+        VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, pelialue);
         pelinakyma = new Scene(kaikki, 500, 500);
         pelinakyma.setOnMousePressed(e -> {
@@ -100,7 +97,7 @@ public class KattiKayttol extends Application {
      */
     public void teeAsetusnakyma() {
         Pane asetukset = new BorderPane();
-        kaikki.getChildren().clear();
+        VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, asetukset);
         asetusnakyma = new Scene(kaikki, 500, 500);
     }
