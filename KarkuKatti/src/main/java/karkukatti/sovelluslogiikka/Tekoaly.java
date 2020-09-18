@@ -13,7 +13,7 @@ import java.util.*;
 public class Tekoaly {
     
     public Sijainti laskeSiirto() {
-        return new Sijainti(0,0);
+        return new Sijainti(0, 0);
     }
     
     /**
@@ -109,5 +109,37 @@ public class Tekoaly {
             }
         }
         return t;
+    }
+    
+    /**
+     * Laskee annetun tilanteen hyvyyden kissan kannalta. Mitä suurempi arvo, sitä parempi.
+     * @param seinat Pelilaudan tilanne, true merkitsee seinäruutua
+     * @param kissa Kissan sijainti
+     * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (-100:100).
+     */
+    private double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
+        ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
+        Collections.sort(lista);
+        int lyhin = lista.get(0);
+        if (lyhin == 0) {
+            return 100; // jos kissa on laidalla, tilanne on sille paras mahdollinen
+        }
+        int maara = lista.size();
+        if (maara == 0) {
+            return -100; // jos kissa ei pääse pois, tilanne on sille huonoin mahdollinen
+        }
+        int summa = 0;
+        for (int i: lista) {
+            summa += i;
+        }
+        double keskipituus = 1.0 * summa / maara;
+        double hyvyys = (3 * maara) - (2 * lyhin) - (1.5 * keskipituus);
+        if (hyvyys > 100) {
+            hyvyys = 100;
+        }
+        if (hyvyys < -100) {
+            hyvyys = -100;
+        }
+        return hyvyys;
     }
 }
