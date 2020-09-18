@@ -14,12 +14,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
         
 public class KattiKayttol extends Application {
     
     private Scene pelinakyma;
     private Scene asetusnakyma;
+    private Scene peliohinakyma;
     private Stage ikkuna;
     private Peli peli;
     private Rectangle[][] pelilauta;
@@ -106,6 +108,16 @@ public class KattiKayttol extends Application {
         asetusnakyma = new Scene(kaikki, 500, 500);
     }
     
+    public void teePeliOhiNakyma(String teksti) {
+        Label peliLoppu = new Label("Peli loppui!");
+        Label kumpiVoitti = new Label(teksti);
+        kumpiVoitti.setFont(new Font(24));
+        Label viesti = new Label("Aloita uusi peli ylävalikosta tai siirry asetuksiin");
+        VBox kaikki = new VBox();
+        kaikki.getChildren().addAll(ylavalikko, peliLoppu, kumpiVoitti, viesti);
+        peliohinakyma = new Scene(kaikki, 500, 500);
+    }
+    
     /**
      * Käsittelee hiiren klikkauksen. Kutsuu peliä asiaankuuluvasti. Tarkistaa että klikkaus sijoittuu pelilaudalle.
      * @param x Klikatun kohdan x-koordinaatti
@@ -134,6 +146,14 @@ public class KattiKayttol extends Application {
             }
         } else {
             ilmoitus.setText("Klikkasit ohi laudasta.");
+        }
+        if (peli.getPeliLoppui()) {
+            if (peli.getKissaVoitti()) {
+                this.teePeliOhiNakyma("Kissa voitti!");
+            } else {
+                this.teePeliOhiNakyma("Seinäpelaaja voitti!");
+            }
+            this.ikkuna.setScene(peliohinakyma);
         }
     }
     

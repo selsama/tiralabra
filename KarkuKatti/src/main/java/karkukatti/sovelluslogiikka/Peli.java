@@ -76,7 +76,7 @@ public class Peli {
      * Metodi kutsuu tekoälyä valitsemaan siirron, ja tekee valitun siirron.
      */
     private void tekoalyPelaa() {
-        Sijainti s = tekoaly.laskeSiirto();
+        Sijainti s = tekoaly.laskeSiirto(seinat, kissanSijainti, kissanVuoro);
         if (kissanVuoro) {
             this.siirraKissaa(s);
         } else {
@@ -132,9 +132,7 @@ public class Peli {
     }
     
     private boolean havisikoKissa() {
-        this.tekoaly.leveyshaku(seinat, kissanSijainti);
-        //if(noRoutes) --> return true
-        return false;
+        return (!tekoaly.onkoReittejaJaljella(seinat, kissanSijainti));
     }
     
     public int getKoko() {
@@ -151,5 +149,13 @@ public class Peli {
     
     public Sijainti getKissanSijainti() {
         return kissanSijainti;
+    }
+    
+    public boolean getPeliLoppui() {
+        return this.peliOhi;
+    }
+    
+    public boolean getKissaVoitti() {
+        return this.kissaVoitti;
     }
 }

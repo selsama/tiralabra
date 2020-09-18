@@ -12,8 +12,71 @@ import java.util.*;
  */
 public class Tekoaly {
     
-    public Sijainti laskeSiirto() {
-        return new Sijainti(0, 0);
+    public Sijainti laskeSiirto(boolean[][] seinat, Sijainti kissa, boolean kissaPelaa) {
+        Sijainti[] mahdollisetSiirrot = this.getNaapurit(kissa);
+        int kuinkaSyvalle = 1;
+        Siirto siirto = this.minMax(seinat, kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
+        return siirto.getKohde();
+    }
+    /**
+     * 
+     * @param seinat
+     * @param kissa
+     * @param onkoKissanKierros
+     * @param mihinVoiSiirtaa
+     * @param moneskoKierros
+     * @param montakoKierrostaHalutaan
+     * @return 
+     */
+    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan) {
+        Siirto paras = null;
+        for (int i = 0; i < mihinVoiSiirtaa.length; i++) {
+            Sijainti s = mihinVoiSiirtaa[i];
+            if (this.onkoSiirtoKielletty(seinat, s, kissa)) {
+                continue;
+            }
+            Siirto uusi;
+            if (moneskoKierros == montakoKierrostaHalutaan) {
+                if (onkoKissanKierros) {
+                    Double hyvyys = this.laskeTilanteenHyvyys(seinat, s);
+                    uusi = new Siirto(s, hyvyys);
+                } else {
+                    boolean[][] uudetSeinat = seinat;
+                    uudetSeinat[s.getX()][s.getY()] = true;
+                    uusi = new Siirto(s, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
+                }
+            } else {
+                if (onkoKissanKierros) {
+                    uusi = this.minMax(seinat, s, false, 
+                            this.getTyhjät(seinat), moneskoKierros + 1, montakoKierrostaHalutaan);
+                } else {
+                    boolean[][] uudetSeinat = seinat;
+                    uudetSeinat[s.getX()][s.getY()] = true;
+                    uusi = this.minMax(uudetSeinat, kissa, true, 
+                            this.getNaapurit(s), moneskoKierros + 1, montakoKierrostaHalutaan);
+                }
+            }
+            if (paras == null) {
+                paras = uusi;
+            } else if (onkoKissanKierros) {
+                if (paras.getHyvyys() < uusi.getHyvyys()) {
+                    paras = uusi;
+                }
+            } else {
+                if (paras.getHyvyys() > uusi.getHyvyys()) {
+                    paras = uusi;
+                }
+            }
+        }
+        return paras;
+    }
+    
+    public boolean onkoReittejaJaljella(boolean[][] seinat, Sijainti kissa) {
+        ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
+        if (lista.size() == 0) {
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -87,6 +150,11 @@ public class Tekoaly {
         return etaisyydetUlos;
     }
     
+    /**
+     * Tekee taulukon annetun sijainnin viereisistä sijainneista. Ei huomioi, ovatko naapurit seinää tai ulkona alueelta.
+     * @param s Annettu sijainti
+     * @return Taulukko sijainnin viereisistä sijainneista
+     */
     private Sijainti[] getNaapurit(Sijainti s) {
         Sijainti[] naapurit = new Sijainti[4];
         naapurit[0] = new Sijainti(s.getX() - 1, s.getY());
@@ -94,6 +162,26 @@ public class Tekoaly {
         naapurit[2] = new Sijainti(s.getX(), s.getY() - 1);
         naapurit[3] = new Sijainti(s.getX(), s.getY() + 1);
         return naapurit;
+    }
+    
+    /**
+     * Tekee taulukon annetun alueen tyhjistä ruuduista.
+     * @param seinat
+     * @return 
+     */
+    private Sijainti[] getTyhjät(boolean[][] seinat) {
+        ArrayList<Sijainti> tyhjatLista = new ArrayList<>();
+        for (int i = 0; i < seinat.length; i++) {
+            for (int j = 0; j < seinat.length; j++) {
+                if (!seinat[i][j])
+                    tyhjatLista.add(new Sijainti(i, j));
+            }
+        }
+        Sijainti[] tyhjat = new Sijainti[tyhjatLista.size()];
+        for (int i = 0; i < tyhjatLista.size(); i++) {
+            tyhjat[i] = tyhjatLista.get(i);
+        }
+        return tyhjat;
     }
     
     /**
@@ -141,5 +229,27 @@ public class Tekoaly {
             hyvyys = -100;
         }
         return hyvyys;
+    }
+    
+    /**
+     * Tarkistaa, onko annettu siirto sallittu.
+     * @param seinat pelilaudan tilanne
+     * @param s Sijainti, johon siirto tehtäisiin
+     * @param kissa kissan sijainti
+     * @return true, jos siirto on kielletty, muuten false
+     */
+    private boolean onkoSiirtoKielletty(boolean[][] seinat, Sijainti s, Sijainti kissa) {
+        if (s.getX() < 0 || s.getX() >= seinat.length) {
+            return true;
+        } else if (s.getY() < 0 || s.getY() >= seinat.length) {
+            return true;
+        }
+        if (seinat[s.getX()][s.getY()]) {
+            return true;
+        }
+        if (kissa.onSama(s)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -51,6 +51,7 @@ public class TekoalyTest {
         etaisyydet[2][4] = 1000;
         etaisyydet[3][0] = 10;
         etaisyydet[4][1] = 12;
+        etaisyydet[3][3] = 30;
         ArrayList<Integer> lista = aly.etaisyydetUlos(etaisyydet);
         assertEquals("etaisyydetUlos antaa väärän kokoisen listan", 14, lista.size());
         int summa = 0;
