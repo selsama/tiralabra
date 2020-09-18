@@ -208,14 +208,15 @@ public class Tekoaly {
     private double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
         ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
         Collections.sort(lista);
-        int lyhin = lista.get(0);
-        if (lyhin == 0) {
-            return 100; // jos kissa on laidalla, tilanne on sille paras mahdollinen
-        }
         int maara = lista.size();
         if (maara == 0) {
             return -100; // jos kissa ei pääse pois, tilanne on sille huonoin mahdollinen
         }
+        int lyhin = lista.get(0);
+        if (lyhin == 0) {
+            return 100; // jos kissa on laidalla, tilanne on sille paras mahdollinen
+        }
+
         int summa = 0;
         for (int i: lista) {
             summa += i;

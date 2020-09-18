@@ -31,16 +31,18 @@ public class KattiKayttol extends Application {
     private Button uusiPeliNappi;
     private Button asetuksetNappi;
     private Pane pelialue;
+    private int pelaajat;
 
     @Override
     public void init() {
-        this.peli = new Peli(10);
+        this.pelaajat = 1;
+        this.peli = new Peli(10, pelaajat);
         this.vuoro = new Label();
         this.ilmoitus = new Label();
         ilmoitus.setTextFill(Color.RED);
         this.uusiPeliNappi = new Button("Uusi peli");
         uusiPeliNappi.setOnAction(e -> {
-            this.peli = new Peli(this.peli.getKoko());
+            this.peli = new Peli(this.peli.getKoko(), pelaajat);
             this.teePelinakyma();
             this.ikkuna.setScene(pelinakyma);
         });
@@ -102,7 +104,16 @@ public class KattiKayttol extends Application {
      * Tekee asetusnäkymän.
      */
     public void teeAsetusnakyma() {
-        Pane asetukset = new BorderPane();
+        HBox asetukset = new HBox();
+        Button kaksiPelaajaa = new Button("Kaksi pelaajaa");
+        kaksiPelaajaa.setOnAction(e -> {
+            this.pelaajat = 1;
+        });
+        Button pelaaSeinilla = new Button("Pelaa kissaa vastaan");
+        pelaaSeinilla.setOnAction(e -> {
+            this.pelaajat = 0;
+        });
+        asetukset.getChildren().addAll(kaksiPelaajaa, pelaaSeinilla);
         VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, asetukset);
         asetusnakyma = new Scene(kaikki, 500, 500);
@@ -129,18 +140,29 @@ public class KattiKayttol extends Application {
         y -= 35;
         y /= 25;
         if (0 <= x && x < pelilauta.length && 0 <= y && y < pelilauta.length) {
-            Sijainti s = peli.getKissanSijainti();
+            Sijainti missaKissaOli = peli.getKissanSijainti();
+            Sijainti uusi = new Sijainti(x, y);
             boolean kissanVuoro = peli.getKissanVuoro();
             if (this.peli.reagoiKlikkaukseen(x, y)) {
                 if (kissanVuoro) {
-                    pelilauta[s.getX()][s.getY()].setFill(Color.BLUEVIOLET);
-                    pelilauta[x][y].setFill(Color.BROWN);
+                    this.siirraKissaa(uusi, missaKissaOli);
                     vuoro.setText("Pelaajan vuoro");
                 } else {
-                    pelilauta[x][y].setFill(Color.GREENYELLOW);
+                    this.teeSeinaruutu(uusi);
                     vuoro.setText("Kissan vuoro");
                 }
                 ilmoitus.setText("");
+                missaKissaOli = peli.getKissanSijainti();
+                kissanVuoro = peli.getKissanVuoro();
+                Sijainti tekoalynSiirto = peli.tekoalyPelaa();
+                if (tekoalynSiirto != null) {
+                    if (kissanVuoro) {
+                        this.siirraKissaa(tekoalynSiirto, missaKissaOli);
+                    } else {
+                        this.teeSeinaruutu(tekoalynSiirto);
+                    }
+                }
+                
             } else {
                 ilmoitus.setText("Siirto ei sallittu.");
             }
@@ -155,6 +177,15 @@ public class KattiKayttol extends Application {
             }
             this.ikkuna.setScene(peliohinakyma);
         }
+    }
+    
+    private void siirraKissaa(Sijainti uusi, Sijainti kissanVanha) {
+        pelilauta[uusi.getX()][uusi.getY()].setFill(Color.BROWN);
+        pelilauta[kissanVanha.getX()][kissanVanha.getY()].setFill(Color.BLUEVIOLET);
+    }
+    
+    private void teeSeinaruutu(Sijainti s) {
+        pelilauta[s.getX()][s.getY()].setFill(Color.GREENYELLOW);
     }
     
     public static void main(String[] args) {

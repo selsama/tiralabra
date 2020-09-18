@@ -16,17 +16,23 @@ public class Peli {
     private boolean peliOhi;
     private boolean kissaVoitti;
     private Tekoaly tekoaly;
+    private boolean tekoalyOhjaaKissaa;
     
     /**
      * Luo uuden Peli-instanssin annetussa koossa.
      * @param koko Haluttu pelialueen koko
      */
-    public Peli(int koko) {
+    public Peli(int koko, int pelaajat) {
         seinat = new boolean[koko][koko];
         kissanVuoro = false;
         peliOhi = false;
         kissanSijainti = new Sijainti(koko / 2, koko / 2);
         tekoaly = new Tekoaly();
+        if (pelaajat == 0) {
+            tekoalyOhjaaKissaa = true;
+        } else {
+            tekoalyOhjaaKissaa = false;
+        }
     }
     
     /**
@@ -75,7 +81,10 @@ public class Peli {
     /**
      * Metodi kutsuu tekoälyä valitsemaan siirron, ja tekee valitun siirron.
      */
-    private void tekoalyPelaa() {
+    public Sijainti tekoalyPelaa() {
+        if (this.getPelaajanVuoro()) {
+            return null;
+        }
         Sijainti s = tekoaly.laskeSiirto(seinat, kissanSijainti, kissanVuoro);
         if (kissanVuoro) {
             this.siirraKissaa(s);
@@ -83,6 +92,7 @@ public class Peli {
             this.teeSeina(s);
         }
         this.vaihdaVuoroa();
+        return s;
     }
     
     /**
@@ -157,5 +167,12 @@ public class Peli {
     
     public boolean getKissaVoitti() {
         return this.kissaVoitti;
+    }
+    
+    public boolean getPelaajanVuoro() {
+        if (tekoalyOhjaaKissaa && kissanVuoro) {
+            return false;
+        }
+        return true;
     }
 }

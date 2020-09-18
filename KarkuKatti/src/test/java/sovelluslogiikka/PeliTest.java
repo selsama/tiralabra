@@ -18,7 +18,7 @@ public class PeliTest {
     private Peli peli;
     
     public PeliTest() {
-        peli = new Peli(5);
+        peli = new Peli(5, 1);
     }
     
     @Test
