@@ -8,6 +8,7 @@ package sovelluslogiikka;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import karkukatti.sovelluslogiikka.*;
+import java.util.*;
 
 /**
  *
@@ -41,6 +42,22 @@ public class TekoalyTest {
             }
         }
     
+    }
+    
+    @Test
+    public void etaisyydetUlosTesti() {
+        int[][] etaisyydet = new int[5][5];
+        etaisyydet[0][0] = 1000;
+        etaisyydet[2][4] = 1000;
+        etaisyydet[3][0] = 10;
+        etaisyydet[4][1] = 12;
+        ArrayList<Integer> lista = aly.etaisyydetUlos(etaisyydet);
+        assertEquals("etaisyydetUlos antaa väärän kokoisen listan", 14, lista.size());
+        int summa = 0;
+        for (int i: lista) {
+            summa+= i;
+        }
+        assertEquals("etaisyydetUlos antaa väärän listan", 22, summa);
     }
     
 }

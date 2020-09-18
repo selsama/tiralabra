@@ -26,6 +26,7 @@ public class Peli {
         kissanVuoro = false;
         peliOhi = false;
         kissanSijainti = new Sijainti(koko / 2, koko / 2);
+        tekoaly = new Tekoaly();
     }
     
     /**
@@ -67,6 +68,7 @@ public class Peli {
                 peliOhi = true;
                 kissaVoitti = false;
             }
+            kissanVuoro = true;
         }
     }
     

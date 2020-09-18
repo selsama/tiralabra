@@ -16,8 +16,14 @@ public class Tekoaly {
         return new Sijainti(0,0);
     }
     
+    /**
+     * Muodostaa leveyshaulla taulukon, jossa on etäisyys annetusta ruudusta kuhunkin muuhun ruutuun. Jos ruutuun ei päästä, sen etäisyydeksi jää 1000.
+     * @param seinat taulukko, jossa true-edustaa seinäruutuja labyrintissa
+     * @param kissa aloitussijainti
+     * @return taulukko, jossa on etäisyys aloitussijainnista kuhunkin muuhun taulukon sijaintiin. Jos sijaintiin ei ole reittiä, sen arvo on 1000.
+     */
     public int[][] leveyshaku(boolean[][] seinat, Sijainti kissa) {
-        int[][] etaisyys = new int[seinat.length][seinat.length];
+        int[][] etaisyys = this.teeTuhatTaulukko(seinat.length);
         boolean[][] vierailtu = new boolean[seinat.length][seinat.length];
         ArrayDeque<Sijainti> jono = new ArrayDeque<>();
         jono.add(kissa);
@@ -44,6 +50,43 @@ public class Tekoaly {
         return etaisyys;
     }
     
+    /**
+     * Muodostaa annetusta etaisyys-taulukosta listan saavutettavissa olevien reunaruutujen etäisyyksistä. Jos etäisyys ruutuun on 1000 tai yli, sitä ei lisätä listalle.
+     * @param etaisyys tutkittava taulukko
+     * @return Lista, jossa on etäisyys jokaiseen saavutettavissa olevaan reunaruutuun.
+     */
+    public ArrayList<Integer> etaisyydetUlos(int[][] etaisyys) {
+        ArrayList<Integer> etaisyydetUlos = new ArrayList<>();
+        int vika = etaisyys.length - 1;
+        if (etaisyys[0][0] < 1000) {
+            etaisyydetUlos.add(etaisyys[0][0]);
+        }
+        if (etaisyys[0][vika] < 1000) {
+            etaisyydetUlos.add(etaisyys[0][vika]);
+        }
+        if (etaisyys[vika][0] < 1000) {
+            etaisyydetUlos.add(etaisyys[vika][0]);
+        }
+        if (etaisyys[vika][vika] < 1000) {
+            etaisyydetUlos.add(etaisyys[vika][vika]);
+        }
+        for (int i = 1; i < vika; i++) {
+            if (etaisyys[0][i] < 1000) {
+                etaisyydetUlos.add(etaisyys[0][i]);
+            }
+            if (etaisyys[vika][i] < 1000) {
+            etaisyydetUlos.add(etaisyys[vika][i]);
+            }
+            if (etaisyys[i][0] < 1000) {
+                etaisyydetUlos.add(etaisyys[i][0]);
+            }
+            if (etaisyys[i][vika] < 1000) {
+                etaisyydetUlos.add(etaisyys[i][vika]);
+            }
+        }
+        return etaisyydetUlos;
+    }
+    
     private Sijainti[] getNaapurit(Sijainti s) {
         Sijainti[] naapurit = new Sijainti[4];
         naapurit[0] = new Sijainti(s.getX() - 1, s.getY());
@@ -51,5 +94,20 @@ public class Tekoaly {
         naapurit[2] = new Sijainti(s.getX(), s.getY() - 1);
         naapurit[3] = new Sijainti(s.getX(), s.getY() + 1);
         return naapurit;
+    }
+    
+    /**
+     * Tekee annetun kokoisen taulukon, jossa jokainen arvo on 1000.
+     * @param koko 
+     * @return 
+     */
+    private int[][] teeTuhatTaulukko(int koko) {
+        int[][] t = new int[koko][koko];
+        for (int i = 0; i < koko; i++) {
+            for (int j = 0; j < koko; j++) {
+                t[i][j] = 1000;
+            }
+        }
+        return t;
     }
 }
