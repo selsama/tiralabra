@@ -17,10 +17,12 @@ public class Peli {
     private boolean kissaVoitti;
     private Tekoaly tekoaly;
     private boolean tekoalyOhjaaKissaa;
+    private boolean tekoalyOhjaaSeinia;
     
     /**
      * Luo uuden Peli-instanssin annetussa koossa.
      * @param koko Haluttu pelialueen koko
+     * @param pelaajat Haluttu pelaajat vs tietokone-asetus (0 = ihminen vastaan kissa, 1 = kaksi ihmistä)
      */
     public Peli(int koko, int pelaajat) {
         seinat = new boolean[koko][koko];
@@ -30,8 +32,13 @@ public class Peli {
         tekoaly = new Tekoaly();
         if (pelaajat == 0) {
             tekoalyOhjaaKissaa = true;
+            tekoalyOhjaaSeinia = false;
+        } else if (pelaajat == 1) {
+            tekoalyOhjaaKissaa = false;
+            tekoalyOhjaaSeinia = true;
         } else {
             tekoalyOhjaaKissaa = false;
+            tekoalyOhjaaSeinia = false;
         }
     }
     
@@ -82,14 +89,18 @@ public class Peli {
      * Metodi kutsuu tekoälyä valitsemaan siirron, ja tekee valitun siirron.
      */
     public Sijainti tekoalyPelaa() {
-        if (this.getPelaajanVuoro()) {
+        if (this.onkoPelaajanVuoro()) {
             return null;
         }
-        Sijainti s = tekoaly.laskeSiirto(seinat, kissanSijainti, kissanVuoro);
+        boolean[][] uusi = seinat.clone();
+        Sijainti s = tekoaly.laskeSiirto(uusi, kissanSijainti, kissanVuoro);
         if (kissanVuoro) {
             this.siirraKissaa(s);
         } else {
             this.teeSeina(s);
+//            for (int i = 0; i < seinat.length; i++) {
+//                System.out.print(seinat[6][i]);
+//            }
         }
         this.vaihdaVuoroa();
         return s;
@@ -169,8 +180,10 @@ public class Peli {
         return this.kissaVoitti;
     }
     
-    public boolean getPelaajanVuoro() {
+    public boolean onkoPelaajanVuoro() {
         if (tekoalyOhjaaKissaa && kissanVuoro) {
+            return false;
+        } else if (tekoalyOhjaaSeinia && !kissanVuoro) {
             return false;
         }
         return true;

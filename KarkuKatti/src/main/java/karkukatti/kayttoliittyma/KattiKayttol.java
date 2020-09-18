@@ -35,7 +35,7 @@ public class KattiKayttol extends Application {
 
     @Override
     public void init() {
-        this.pelaajat = 1;
+        this.pelaajat = 3;
         this.peli = new Peli(10, pelaajat);
         this.vuoro = new Label();
         this.ilmoitus = new Label();
@@ -107,12 +107,16 @@ public class KattiKayttol extends Application {
         HBox asetukset = new HBox();
         Button kaksiPelaajaa = new Button("Kaksi pelaajaa");
         kaksiPelaajaa.setOnAction(e -> {
-            this.pelaajat = 1;
+            this.pelaajat = 3;
         });
         Button pelaaSeinilla = new Button("Pelaa kissaa vastaan");
         pelaaSeinilla.setOnAction(e -> {
             this.pelaajat = 0;
         });
+//        Button pelaaKissalla = new Button("Pelaa kissalla");
+//        pelaaKissalla.setOnAction(e -> {
+//            this.pelaajat = 1;
+//        });
         asetukset.getChildren().addAll(kaksiPelaajaa, pelaaSeinilla);
         VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, asetukset);

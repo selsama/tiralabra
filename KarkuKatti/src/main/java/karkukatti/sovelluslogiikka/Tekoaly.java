@@ -15,7 +15,8 @@ public class Tekoaly {
     public Sijainti laskeSiirto(boolean[][] seinat, Sijainti kissa, boolean kissaPelaa) {
         Sijainti[] mahdollisetSiirrot = this.getNaapurit(kissa);
         int kuinkaSyvalle = 1;
-        Siirto siirto = this.minMax(seinat, kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
+        Siirto siirto = this.minMax(seinat.clone(), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
+//        System.out.println("valittu kohde: "+siirto.getKohde().getX()+","+siirto.getKohde().getY());
         return siirto.getKohde();
     }
     /**
@@ -31,29 +32,29 @@ public class Tekoaly {
     public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan) {
         Siirto paras = null;
         for (int i = 0; i < mihinVoiSiirtaa.length; i++) {
-            Sijainti s = mihinVoiSiirtaa[i];
-            if (this.onkoSiirtoKielletty(seinat, s, kissa)) {
+            Sijainti siirronKohde = mihinVoiSiirtaa[i];
+            if (this.onkoSiirtoKielletty(seinat, siirronKohde, kissa)) {
                 continue;
             }
             Siirto uusi;
             if (moneskoKierros == montakoKierrostaHalutaan) {
                 if (onkoKissanKierros) {
-                    Double hyvyys = this.laskeTilanteenHyvyys(seinat, s);
-                    uusi = new Siirto(s, hyvyys);
+                    Double hyvyys = this.laskeTilanteenHyvyys(seinat, siirronKohde);
+                    uusi = new Siirto(siirronKohde, hyvyys);
                 } else {
-                    boolean[][] uudetSeinat = seinat;
-                    uudetSeinat[s.getX()][s.getY()] = true;
-                    uusi = new Siirto(s, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
+                    boolean[][] uudetSeinat = seinat.clone();
+                    uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
+                    uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
                 }
             } else {
                 if (onkoKissanKierros) {
-                    uusi = this.minMax(seinat, s, false, 
+                    uusi = this.minMax(seinat, siirronKohde, false, 
                             this.getTyhjät(seinat), moneskoKierros + 1, montakoKierrostaHalutaan);
                 } else {
-                    boolean[][] uudetSeinat = seinat;
-                    uudetSeinat[s.getX()][s.getY()] = true;
+                    boolean[][] uudetSeinat = seinat.clone();
+                    uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = this.minMax(uudetSeinat, kissa, true, 
-                            this.getNaapurit(s), moneskoKierros + 1, montakoKierrostaHalutaan);
+                            this.getNaapurit(siirronKohde), moneskoKierros + 1, montakoKierrostaHalutaan);
                 }
             }
             if (paras == null) {
