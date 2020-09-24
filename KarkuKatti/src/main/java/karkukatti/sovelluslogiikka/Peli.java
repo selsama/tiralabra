@@ -87,6 +87,7 @@ public class Peli {
     
     /**
      * Metodi kutsuu tekoälyä valitsemaan siirron, ja tekee valitun siirron.
+     * @return 
      */
     public Sijainti tekoalyPelaa() {
         if (this.onkoPelaajanVuoro()) {
@@ -98,9 +99,6 @@ public class Peli {
             this.siirraKissaa(s);
         } else {
             this.teeSeina(s);
-//            for (int i = 0; i < seinat.length; i++) {
-//                System.out.print(seinat[6][i]);
-//            }
         }
         this.vaihdaVuoroa();
         return s;

@@ -61,4 +61,19 @@ public class TekoalyTest {
         assertEquals("etaisyydetUlos antaa väärän listan", 22, summa);
     }
     
+    @Test
+    public void tekoalyEiMuutaAlkuperaistaPelia() {
+        boolean[][] seinat = new boolean[3][3];
+        Sijainti kissa = new Sijainti(1,1);
+        aly.laskeSiirto(seinat, kissa, true);
+        assertTrue("Alkuperäinen kissa on siirtynyt", kissa.onSama(new Sijainti(1,1)));
+        aly.laskeSiirto(seinat, kissa, false);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertFalse("Alkuperäiseen taulukkoon on ilmestynyt seinä kohtaan " + i + "," + j,
+                        seinat[i][j]);
+            }
+        }
+    }
+    
 }

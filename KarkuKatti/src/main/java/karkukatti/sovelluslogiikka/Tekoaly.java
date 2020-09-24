@@ -15,8 +15,7 @@ public class Tekoaly {
     public Sijainti laskeSiirto(boolean[][] seinat, Sijainti kissa, boolean kissaPelaa) {
         Sijainti[] mahdollisetSiirrot = this.getNaapurit(kissa);
         int kuinkaSyvalle = 1;
-        Siirto siirto = this.minMax(seinat.clone(), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
-//        System.out.println("valittu kohde: "+siirto.getKohde().getX()+","+siirto.getKohde().getY());
+        Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
         return siirto.getKohde();
     }
     /**
@@ -42,7 +41,7 @@ public class Tekoaly {
                     Double hyvyys = this.laskeTilanteenHyvyys(seinat, siirronKohde);
                     uusi = new Siirto(siirronKohde, hyvyys);
                 } else {
-                    boolean[][] uudetSeinat = seinat.clone();
+                    boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
                 }
@@ -51,7 +50,7 @@ public class Tekoaly {
                     uusi = this.minMax(seinat, siirronKohde, false, 
                             this.getTyhjät(seinat), moneskoKierros + 1, montakoKierrostaHalutaan);
                 } else {
-                    boolean[][] uudetSeinat = seinat.clone();
+                    boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = this.minMax(uudetSeinat, kissa, true, 
                             this.getNaapurit(siirronKohde), moneskoKierros + 1, montakoKierrostaHalutaan);
@@ -253,5 +252,15 @@ public class Tekoaly {
             return true;
         }
         return false;
+    }
+    
+    private boolean[][] teeUusiTaulukko(boolean [][] seinat) {
+        boolean[][] uusi = new boolean[seinat.length][seinat.length];
+        for (int i = 0; i < seinat.length; i++) {
+            for (int j = 0; j < seinat.length; j++) {
+                uusi[i][j] = seinat[i][j];
+            }
+        }
+        return uusi;
     }
 }

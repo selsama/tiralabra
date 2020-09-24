@@ -113,11 +113,11 @@ public class KattiKayttol extends Application {
         pelaaSeinilla.setOnAction(e -> {
             this.pelaajat = 0;
         });
-//        Button pelaaKissalla = new Button("Pelaa kissalla");
-//        pelaaKissalla.setOnAction(e -> {
-//            this.pelaajat = 1;
-//        });
-        asetukset.getChildren().addAll(kaksiPelaajaa, pelaaSeinilla);
+        Button pelaaKissalla = new Button("Pelaa kissalla");
+        pelaaKissalla.setOnAction(e -> {
+            this.pelaajat = 1;
+        });
+        asetukset.getChildren().addAll(kaksiPelaajaa, pelaaSeinilla, pelaaKissalla);
         VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, asetukset);
         asetusnakyma = new Scene(kaikki, 500, 500);
