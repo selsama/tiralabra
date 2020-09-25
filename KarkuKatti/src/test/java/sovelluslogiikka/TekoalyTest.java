@@ -52,11 +52,11 @@ public class TekoalyTest {
         etaisyydet[3][0] = 10;
         etaisyydet[4][1] = 12;
         etaisyydet[3][3] = 30;
-        ArrayList<Integer> lista = aly.etaisyydetUlos(etaisyydet);
-        assertEquals("etaisyydetUlos antaa väärän kokoisen listan", 14, lista.size());
+        Lista<Integer> lista = aly.etaisyydetUlos(etaisyydet);
+        assertEquals("etaisyydetUlos antaa väärän kokoisen listan", 14, lista.getKoko());
         int summa = 0;
-        for (int i: lista) {
-            summa+= i;
+        for (int i = 0; i < lista.getKoko(); i++) {
+            summa+= lista.hae(i);
         }
         assertEquals("etaisyydetUlos antaa väärän listan", 22, summa);
     }

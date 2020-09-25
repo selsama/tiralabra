@@ -8,7 +8,7 @@ package karkukatti.sovelluslogiikka;
 /**
  * Luokka sijainnin x- ja y-koordinaatin tallettamiseen ja vertailemiseen.
  */
-public class Sijainti {
+public class Sijainti implements Comparable<Sijainti>{
     private int x;
     private int y;
     
@@ -63,5 +63,13 @@ public class Sijainti {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int compareTo(Sijainti s) {
+        if (this.onSama(s)) {
+            return 0;
+        }
+        return s.getX() - this.x + s.getY() - this.y;
     }
 }

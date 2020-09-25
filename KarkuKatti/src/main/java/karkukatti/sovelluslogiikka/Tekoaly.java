@@ -91,8 +91,8 @@ public class Tekoaly {
     }
     
     public boolean onkoReittejaJaljella(boolean[][] seinat, Sijainti kissa) {
-        ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
-        if (lista.size() == 0) {
+        Lista<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
+        if (lista.getKoko() == 0) {
             return false;
         }
         return true;
@@ -137,33 +137,33 @@ public class Tekoaly {
      * @param etaisyys tutkittava taulukko
      * @return Lista, jossa on etäisyys jokaiseen saavutettavissa olevaan reunaruutuun.
      */
-    public ArrayList<Integer> etaisyydetUlos(int[][] etaisyys) {
-        ArrayList<Integer> etaisyydetUlos = new ArrayList<>();
+    public Lista<Integer> etaisyydetUlos(int[][] etaisyys) {
+        Lista<Integer> etaisyydetUlos = new Lista<>();
         int vika = etaisyys.length - 1;
         if (etaisyys[0][0] < 1000) {
-            etaisyydetUlos.add(etaisyys[0][0]);
+            etaisyydetUlos.lisaa(etaisyys[0][0]);
         }
         if (etaisyys[0][vika] < 1000) {
-            etaisyydetUlos.add(etaisyys[0][vika]);
+            etaisyydetUlos.lisaa(etaisyys[0][vika]);
         }
         if (etaisyys[vika][0] < 1000) {
-            etaisyydetUlos.add(etaisyys[vika][0]);
+            etaisyydetUlos.lisaa(etaisyys[vika][0]);
         }
         if (etaisyys[vika][vika] < 1000) {
-            etaisyydetUlos.add(etaisyys[vika][vika]);
+            etaisyydetUlos.lisaa(etaisyys[vika][vika]);
         }
         for (int i = 1; i < vika; i++) {
             if (etaisyys[0][i] < 1000) {
-                etaisyydetUlos.add(etaisyys[0][i]);
+                etaisyydetUlos.lisaa(etaisyys[0][i]);
             }
             if (etaisyys[vika][i] < 1000) {
-            etaisyydetUlos.add(etaisyys[vika][i]);
+            etaisyydetUlos.lisaa(etaisyys[vika][i]);
             }
             if (etaisyys[i][0] < 1000) {
-                etaisyydetUlos.add(etaisyys[i][0]);
+                etaisyydetUlos.lisaa(etaisyys[i][0]);
             }
             if (etaisyys[i][vika] < 1000) {
-                etaisyydetUlos.add(etaisyys[i][vika]);
+                etaisyydetUlos.lisaa(etaisyys[i][vika]);
             }
         }
         return etaisyydetUlos;
@@ -189,17 +189,17 @@ public class Tekoaly {
      * @return 
      */
     private Sijainti[] getTyhjat(boolean[][] seinat) {
-        ArrayList<Sijainti> tyhjatLista = new ArrayList<>();
+        Lista<Sijainti> tyhjatLista = new Lista<>();
         for (int i = 0; i < seinat.length; i++) {
             for (int j = 0; j < seinat.length; j++) {
                 if (!seinat[i][j]) {
-                    tyhjatLista.add(new Sijainti(i, j));
+                    tyhjatLista.lisaa(new Sijainti(i, j));
                 }
             }
         }
-        Sijainti[] tyhjat = new Sijainti[tyhjatLista.size()];
-        for (int i = 0; i < tyhjatLista.size(); i++) {
-            tyhjat[i] = tyhjatLista.get(i);
+        Sijainti[] tyhjat = new Sijainti[tyhjatLista.getKoko()];
+        for (int i = 0; i < tyhjatLista.getKoko(); i++) {
+            tyhjat[i] = tyhjatLista.hae(i);
         }
         return tyhjat;
     }
@@ -227,21 +227,21 @@ public class Tekoaly {
      */
     public double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
         int max = 1000;
-        ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
-        Collections.sort(lista);
-        int maara = lista.size();
+        Lista<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
+        lista.jarjesta();
+        int maara = lista.getKoko();
         if (maara == 0) {
             return 0; // jos kissa ei pääse pois, tilanne on sille huonoin mahdollinen
         }
-        int lyhin = lista.get(0);
+        int lyhin = lista.hae(0);
         if (lyhin == 0) {
             return max; // jos kissa on laidalla, tilanne on sille paras mahdollinen
         }
         int lyhimmat = 0;
         int summa = 0;
-        for (int i: lista) {
-            summa += i;
-            if (i  == lyhin) {
+        for (int i = 0; i < lista.getKoko(); i++) {
+            summa += lista.hae(i);
+            if (lista.hae(i)  == lyhin) {
                 lyhimmat++;
             }
         }
