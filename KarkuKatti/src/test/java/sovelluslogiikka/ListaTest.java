@@ -49,6 +49,6 @@ public class ListaTest {
         Collections.sort(lista);
         for (int i = 0; i < lista.size(); i++) {
             assertEquals("lista ei ole oikeassa järjestyksessä", lista.get(i), testattava.hae(i));
-        }
+        } 
     }
 }

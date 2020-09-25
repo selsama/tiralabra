@@ -19,6 +19,10 @@ public class Lista<T extends Comparable> {
         this.montakoMuistissa = 0;
     }
     
+    /**
+     * Lisää listalle uuden arvon. Jos tilavaraus loppuu, varaa muistista uuden taulukon.
+     * @param arvo 
+     */
     public void lisaa(T arvo) {
         if (montakoMuistissa >= taulukko.length) {
             this.teeIsompi();
@@ -36,6 +40,9 @@ public class Lista<T extends Comparable> {
     }
     
     public void jarjesta() {
+        if (montakoMuistissa == 0) {
+            return;
+        }
         Lomitusjarjestaja jarjestaja = new Lomitusjarjestaja<>(montakoMuistissa, taulukko);
         jarjestaja.jarjesta(0, montakoMuistissa - 1);            
     }

@@ -12,6 +12,13 @@ import java.util.*;
  */
 public class Tekoaly {
     
+    /**
+     * Metodi laskee parhaan siirron annetussa tilanteessa. Kutsuu minMax-metodia.
+     * @param seinat pelilaudan tilanne
+     * @param kissa kissan sijainti
+     * @param kissaPelaa true, jos siirtoa etsitään kissalle, false jos seinäpalaajalle
+     * @return Sijainti, johon siirto kannattaa tehdä
+     */
     public Sijainti laskeSiirto(boolean[][] seinat, Sijainti kissa, boolean kissaPelaa) {
         Sijainti[] mahdollisetSiirrot;
         if (kissaPelaa) {
@@ -24,14 +31,14 @@ public class Tekoaly {
         return siirto.getKohde();
     }
     /**
-     * 
-     * @param seinat
-     * @param kissa
-     * @param onkoKissanKierros
-     * @param mihinVoiSiirtaa
-     * @param moneskoKierros
-     * @param montakoKierrostaHalutaan
-     * @return 
+     * MinMax-algoritmi, joka valitsee parhaan siirron. Algoritmi kutsuu itseään rekursiivisesti ja olettaa joka tasolla, että vuorossa oleva pelaaja tekee itsensä kannalta parhaan siirron. 
+     * @param seinat pelilaudan tilanne
+     * @param kissa kissan sijainti
+     * @param onkoKissanKierros true, jos on kissan vuoro, muuten false
+     * @param mihinVoiSiirtaa taulukko mahdollisista siirroista
+     * @param moneskoKierros kuinka mones rekursio on menosssa
+     * @param montakoKierrostaHalutaan kuinka syvä rekursio halutaan
+     * @return paras Siirto tässä tilanteessa (Sijainti ja hyvyysarvo)
      */
     public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan) {
         Siirto paras = null;
@@ -90,6 +97,12 @@ public class Tekoaly {
         return paras;
     }
     
+    /**
+     * Tarkistaa, onko kissalla jäljellä ulospääsyä.
+     * @param seinat taulukko, jossa true edustaa seinäruutua pelilaudalla
+     * @param kissa kissan sijainti
+     * @return false, jos yhtään reittiä ulos ei ole, muuten true
+     */
     public boolean onkoReittejaJaljella(boolean[][] seinat, Sijainti kissa) {
         Lista<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
         if (lista.getKoko() == 0) {
@@ -275,6 +288,11 @@ public class Tekoaly {
         return false;
     }
     
+    /**
+     * Tekee kopion annetusta taulukosta.
+     * @param seinat kopioitava taulukko
+     * @return luotu kopio
+     */
     private boolean[][] teeUusiTaulukko(boolean [][] seinat) {
         boolean[][] uusi = new boolean[seinat.length][seinat.length];
         for (int i = 0; i < seinat.length; i++) {
