@@ -11,6 +11,6 @@ Näiden pääluokkien lisäksi ohjelmassa on useampia pikkuluokkia: Sijainti (jo
 ## Työn puutteet ja parannusajatukset
 
 ## Lähteet
-(Ohjelmistotekniikan kurssimateriaali)[https://github.com/mluukkai/ohjelmistotekniikka-kevat-2020]
-(Ohpe- ja ohjamateriaali)[https://ohjelmointi-s19.mooc.fi/]
-(Javadoc-dokumentaatiot)[https://docs.oracle.com/javase/7/docs/api/overview-summary.html]
+[Ohjelmistotekniikan kurssimateriaali](https://github.com/mluukkai/ohjelmistotekniikka-kevat-2020)
+[Ohpe- ja ohjamateriaali](https://ohjelmointi-s19.mooc.fi/)
+[Javadoc-dokumentaatiot](https://docs.oracle.com/javase/7/docs/api/overview-summary.html)
