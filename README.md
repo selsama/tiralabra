@@ -8,9 +8,9 @@ Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahm
 
 [Määrittelydokumentti](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/m%C3%A4%C3%A4ritteludokumentti.md)
 
-[Käyttöohje](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko4.md)
+[Käyttöohje](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/kayttoohje.md)
 
-[Toteutusdokumentti(kesken)](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko4.md)
+[Toteutusdokumentti(kesken)](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/toteutusdokumentti.md)
 
 ### Release
 
