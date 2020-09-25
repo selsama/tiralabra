@@ -186,10 +186,12 @@ public class KattiKayttol extends Application {
     private void siirraKissaa(Sijainti uusi, Sijainti kissanVanha) {
         pelilauta[uusi.getX()][uusi.getY()].setFill(Color.BROWN);
         pelilauta[kissanVanha.getX()][kissanVanha.getY()].setFill(Color.BLUEVIOLET);
+        vuoro.setText("Seinäpelaajan vuoro");
     }
     
     private void teeSeinaruutu(Sijainti s) {
         pelilauta[s.getX()][s.getY()].setFill(Color.GREENYELLOW);
+        vuoro.setText("Kissan vuoro");
     }
     
     public static void main(String[] args) {

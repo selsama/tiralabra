@@ -30,42 +30,56 @@ public class Tekoaly {
      */
     public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan) {
         Siirto paras = null;
-        for (int i = 0; i < mihinVoiSiirtaa.length; i++) {
+        for (int i = 0; i < mihinVoiSiirtaa.length; i++) { // käydään läpi mahdolliset siirtovaihtoehdot
             Sijainti siirronKohde = mihinVoiSiirtaa[i];
             if (this.onkoSiirtoKielletty(seinat, siirronKohde, kissa)) {
                 continue;
             }
             Siirto uusi;
-            if (moneskoKierros == montakoKierrostaHalutaan) {
-                if (onkoKissanKierros) {
+            if (moneskoKierros == montakoKierrostaHalutaan) { // jos ollaan tarpeeksi syvällä vaihtoehtopuussa, lasketaan kuinka hyvä siirto on kyseessä laskeTilanteenHyvyys-metodilla
+                if (onkoKissanKierros) { //jos on kissan kierros, tämä tarkoittaa että siiroonKohde on kissan uusi sijainti
                     Double hyvyys = this.laskeTilanteenHyvyys(seinat, siirronKohde);
                     uusi = new Siirto(siirronKohde, hyvyys);
-                } else {
+                } else { // jos ei ole kissan vuoro, tämä tarkoittaa että siirronKohde on uuden seinän sijainti. tehdään uusi taulukko seinille, ettei algoritmi flippaa
                     boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
                 }
-            } else {
-                if (onkoKissanKierros) {
-                    uusi = this.minMax(seinat, siirronKohde, false, 
-                            this.getTyhjät(seinat), moneskoKierros + 1, montakoKierrostaHalutaan);
-                } else {
+            } else { // jos halutaan syvemmälle puuhun, kutsutaan minMaxia rekursiivisesti
+                if (onkoKissanKierros) { // jos on kissan kierros, tämä tarkoittaa, että kutsuttava kierros on seinäpelaajan kierros, eli siirronKohde on kissan uusi sijainti, ja mahdolliset siirrot ovat kaikki tyhjät ruudut
+                    Sijainti[] uudetVaihtoehdot = this.getTyhjät(seinat);
+                    uusi = new Siirto(siirronKohde,
+                            this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
+                } else { // jos ei ole kissan vuoro, tämä tarkoittaa että kutsuttava kierros on kissan kierros, eli kissa pysyy paikoillaan, seinät ovat muuten samat mutta siirronKohde muutetaan seinäruuduksi, ja vaihtoehdot ovat uuden sijainnin viereiset ruudut
                     boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
-                    uusi = this.minMax(uudetSeinat, kissa, true, 
-                            this.getNaapurit(siirronKohde), moneskoKierros + 1, montakoKierrostaHalutaan);
+                    uusi = new Siirto(siirronKohde, 
+                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(siirronKohde), moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
                 }
             }
-            if (paras == null) {
+            if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
                 paras = uusi;
-            } else if (onkoKissanKierros) {
+            } else if (onkoKissanKierros) { // jos on kissan kierros, valitaan maksimi
+                if (uusi.getHyvyys() == 500) { // jos siirto on jo paras mahdollinen, palautetaan se eikä jatketa rekursiota
+                    return uusi;
+                }
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
                     paras = uusi;
                 }
-            } else {
+            } else { // jos ei ole kissan vuoro, valitaan minimi
+                if (uusi.getHyvyys() == 0) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota
+                    return uusi;
+                }
                 if (paras.getHyvyys() > uusi.getHyvyys()) {
                     paras = uusi;
                 }
+            }
+        }
+        if (paras == null) { //jos vaihtoehtoja ei ole, pitää välttää nullPointerException, mutta ei haluta että seuraava kierros missään tapauksessa valitsee tätä vaihtoehtoa
+            if (onkoKissanKierros) {
+                return new Siirto(null, 501);
+            } else {
+                return new Siirto(null, -1);
             }
         }
         return paras;
@@ -203,33 +217,33 @@ public class Tekoaly {
      * Laskee annetun tilanteen hyvyyden kissan kannalta. Mitä suurempi arvo, sitä parempi.
      * @param seinat Pelilaudan tilanne, true merkitsee seinäruutua
      * @param kissa Kissan sijainti
-     * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (-100:100).
+     * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (0:100).
      */
-    private double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
+    public double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
         ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
         Collections.sort(lista);
         int maara = lista.size();
         if (maara == 0) {
-            return -100; // jos kissa ei pääse pois, tilanne on sille huonoin mahdollinen
+            return 0; // jos kissa ei pääse pois, tilanne on sille huonoin mahdollinen
         }
         int lyhin = lista.get(0);
         if (lyhin == 0) {
-            return 100; // jos kissa on laidalla, tilanne on sille paras mahdollinen
+            return 500; // jos kissa on laidalla, tilanne on sille paras mahdollinen
         }
-
+        int lyhimmat = 0;
         int summa = 0;
         for (int i: lista) {
             summa += i;
+            if (i  == lyhin) {
+                lyhimmat++;
+            }
         }
         double keskipituus = 1.0 * summa / maara;
-        double hyvyys = (3 * maara) - (2 * lyhin) - (1.5 * keskipituus);
-        if (hyvyys > 100) {
-            hyvyys = 100;
+        double hyvyys = (25 * lyhin) + (2 * keskipituus) + (1.0 / maara) + (10.0 / lyhimmat);
+        if (hyvyys > 500) {
+            hyvyys = 500;
         }
-        if (hyvyys < -100) {
-            hyvyys = -100;
-        }
-        return hyvyys;
+        return 500 - hyvyys;
     }
     
     /**

@@ -76,4 +76,36 @@ public class TekoalyTest {
         }
     }
     
+    @Test
+    public void LaskeTilanteenHyvyysTesti() {
+        boolean[][] seinat = new boolean[4][4];
+        seinat[0][2] = true;
+        seinat[1][0] = true;
+        seinat[1][3] = true;
+        seinat[2][0] = true;
+        seinat[3][1] = true;
+        
+        double eka = aly.laskeTilanteenHyvyys(seinat, new Sijainti(1,1));
+        double toka = aly.laskeTilanteenHyvyys(seinat, new Sijainti(2,2));
+        
+        assertTrue("yksinkertainen tilanne arvioitu väärin päin", eka < toka);
+    }
+    
+    @Test
+    public void laskeSiirtoTesti() {
+        boolean[][] seinat = new boolean[4][4];
+        seinat[0][2] = true;
+        seinat[1][0] = true;
+        seinat[1][3] = true;
+        seinat[2][0] = true;
+        seinat[3][1] = true;
+        
+        Sijainti vastaus = aly.laskeSiirto(seinat, new Sijainti(1,2), true);
+        assertTrue("laskeSiirto valitsee väärin kissalle", vastaus.onSama(new Sijainti(2,2)));
+        vastaus = aly.laskeSiirto(seinat, new Sijainti(2,1), true);
+        assertTrue("laskeSiirto valitsee väärin kissalle", vastaus.onSama(new Sijainti(2,2)));
+        vastaus = aly.laskeSiirto(seinat, new Sijainti(1,2), false);
+        assertTrue("laskeSiirto valitsee väärin seinälle", vastaus.onSama(new Sijainti(2,2)));
+    }
+    
 }
