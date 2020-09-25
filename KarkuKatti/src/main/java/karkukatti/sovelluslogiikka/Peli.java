@@ -22,7 +22,7 @@ public class Peli {
     /**
      * Luo uuden Peli-instanssin annetussa koossa.
      * @param koko Haluttu pelialueen koko
-     * @param pelaajat Haluttu pelaajat vs tietokone-asetus (0 = ihminen vastaan kissa, 1 = kaksi ihmistä)
+     * @param pelaajat Haluttu pelaajat vs tietokone-asetus (0 = ihminen vastaan kissa, 1 = ihminen vastaan seinät, 2 = kaksi ihmistä)
      */
     public Peli(int koko, int pelaajat) {
         seinat = new boolean[koko][koko];

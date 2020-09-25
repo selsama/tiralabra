@@ -104,8 +104,8 @@ public class TekoalyTest {
         assertTrue("laskeSiirto valitsee väärin kissalle", vastaus.onSama(new Sijainti(2,2)));
         vastaus = aly.laskeSiirto(seinat, new Sijainti(2,1), true);
         assertTrue("laskeSiirto valitsee väärin kissalle", vastaus.onSama(new Sijainti(2,2)));
-        vastaus = aly.laskeSiirto(seinat, new Sijainti(1,2), false);
-        assertTrue("laskeSiirto valitsee väärin seinälle", vastaus.onSama(new Sijainti(2,2)));
+        vastaus = aly.laskeSiirto(seinat, new Sijainti(1,1), false);
+        assertTrue("laskeSiirto valitsee väärin seinälle", vastaus.onSama(new Sijainti(0,1)));
     }
 //    
 //    @Test

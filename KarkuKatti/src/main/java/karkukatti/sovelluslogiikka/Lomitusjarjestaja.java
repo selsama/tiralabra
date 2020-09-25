@@ -59,7 +59,7 @@ public class Lomitusjarjestaja<T extends Comparable> {
                 a2++;
             }
         }
-        for( int i = a; i <= b; i++) {
+        for (int i = a; i <= b; i++) {
             taulukko[i] = apu[i];
         }
     }    

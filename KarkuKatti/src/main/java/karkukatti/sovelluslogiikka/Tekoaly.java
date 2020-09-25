@@ -6,7 +6,7 @@
 package karkukatti.sovelluslogiikka;
 
 import java.util.*;
-/**
+/** Luokka pelitilanteen arvioimiseen ja parhaan siirron valitsemiseen.
  *
  * @author salmison
  */
