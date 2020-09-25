@@ -4,10 +4,17 @@ Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahm
 
 ### Dokumentaatio
 
+[Viikkoraportit](https://github.com/selsama/tiralabra/tree/master/Dokumentaatio/viikkoraportit) //// [Viikko 1](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko1.md) - [Viikko2](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko2.md) - [Viikko3](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko3.md) - [Viikko4](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko4.md)
+
 [Määrittelydokumentti](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/m%C3%A4%C3%A4ritteludokumentti.md)
 
-[Viikkoraportit](https://github.com/selsama/tiralabra/tree/master/Dokumentaatio/viikkoraportit) //// [Viikko 1](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko1.md) - [Viikko2](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko2.md) - [Viikko3](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko3.md)
+[Käyttöohje](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko4.md)
 
+[Toteutusdokumentti(kesken)](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/viikkoraportit/viikko4.md)
+
+### Release
+
+[versio 1](https://github.com/selsama/tiralabra/releases/tag/v1)
 
 ### Koodi
 
