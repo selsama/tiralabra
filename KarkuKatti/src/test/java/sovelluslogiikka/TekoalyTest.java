@@ -107,5 +107,10 @@ public class TekoalyTest {
         vastaus = aly.laskeSiirto(seinat, new Sijainti(1,2), false);
         assertTrue("laskeSiirto valitsee väärin seinälle", vastaus.onSama(new Sijainti(2,2)));
     }
+//    
+//    @Test
+//    public void minMaxTesti() {
+//        
+//    }
     
 }

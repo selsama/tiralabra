@@ -13,7 +13,12 @@ import java.util.*;
 public class Tekoaly {
     
     public Sijainti laskeSiirto(boolean[][] seinat, Sijainti kissa, boolean kissaPelaa) {
-        Sijainti[] mahdollisetSiirrot = this.getNaapurit(kissa);
+        Sijainti[] mahdollisetSiirrot;
+        if (kissaPelaa) {
+            mahdollisetSiirrot = this.getNaapurit(kissa);
+        } else {
+            mahdollisetSiirrot = this.getTyhjat(seinat);
+        }
         int kuinkaSyvalle = 1;
         Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
         return siirto.getKohde();
@@ -47,7 +52,7 @@ public class Tekoaly {
                 }
             } else { // jos halutaan syvemmälle puuhun, kutsutaan minMaxia rekursiivisesti
                 if (onkoKissanKierros) { // jos on kissan kierros, tämä tarkoittaa, että kutsuttava kierros on seinäpelaajan kierros, eli siirronKohde on kissan uusi sijainti, ja mahdolliset siirrot ovat kaikki tyhjät ruudut
-                    Sijainti[] uudetVaihtoehdot = this.getTyhjät(seinat);
+                    Sijainti[] uudetVaihtoehdot = this.getTyhjat(seinat);
                     uusi = new Siirto(siirronKohde,
                             this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
                 } else { // jos ei ole kissan vuoro, tämä tarkoittaa että kutsuttava kierros on kissan kierros, eli kissa pysyy paikoillaan, seinät ovat muuten samat mutta siirronKohde muutetaan seinäruuduksi, ja vaihtoehdot ovat uuden sijainnin viereiset ruudut
@@ -60,7 +65,7 @@ public class Tekoaly {
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
                 paras = uusi;
             } else if (onkoKissanKierros) { // jos on kissan kierros, valitaan maksimi
-                if (uusi.getHyvyys() == 500) { // jos siirto on jo paras mahdollinen, palautetaan se eikä jatketa rekursiota
+                if (uusi.getHyvyys() == 1000) { // jos siirto on jo paras mahdollinen, palautetaan se eikä jatketa rekursiota
                     return uusi;
                 }
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
@@ -77,7 +82,7 @@ public class Tekoaly {
         }
         if (paras == null) { //jos vaihtoehtoja ei ole, pitää välttää nullPointerException, mutta ei haluta että seuraava kierros missään tapauksessa valitsee tätä vaihtoehtoa
             if (onkoKissanKierros) {
-                return new Siirto(null, 501);
+                return new Siirto(null, 1001);
             } else {
                 return new Siirto(null, -1);
             }
@@ -183,12 +188,13 @@ public class Tekoaly {
      * @param seinat
      * @return 
      */
-    private Sijainti[] getTyhjät(boolean[][] seinat) {
+    private Sijainti[] getTyhjat(boolean[][] seinat) {
         ArrayList<Sijainti> tyhjatLista = new ArrayList<>();
         for (int i = 0; i < seinat.length; i++) {
             for (int j = 0; j < seinat.length; j++) {
-                if (!seinat[i][j])
+                if (!seinat[i][j]) {
                     tyhjatLista.add(new Sijainti(i, j));
+                }
             }
         }
         Sijainti[] tyhjat = new Sijainti[tyhjatLista.size()];
@@ -220,6 +226,7 @@ public class Tekoaly {
      * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (0:100).
      */
     public double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
+        int max = 1000;
         ArrayList<Integer> lista = this.etaisyydetUlos(this.leveyshaku(seinat, kissa));
         Collections.sort(lista);
         int maara = lista.size();
@@ -228,7 +235,7 @@ public class Tekoaly {
         }
         int lyhin = lista.get(0);
         if (lyhin == 0) {
-            return 500; // jos kissa on laidalla, tilanne on sille paras mahdollinen
+            return max; // jos kissa on laidalla, tilanne on sille paras mahdollinen
         }
         int lyhimmat = 0;
         int summa = 0;
@@ -240,10 +247,10 @@ public class Tekoaly {
         }
         double keskipituus = 1.0 * summa / maara;
         double hyvyys = (25 * lyhin) + (2 * keskipituus) + (1.0 / maara) + (10.0 / lyhimmat);
-        if (hyvyys > 500) {
-            hyvyys = 500;
+        if (hyvyys > max) {
+            hyvyys = max;
         }
-        return 500 - hyvyys;
+        return max - hyvyys;
     }
     
     /**
