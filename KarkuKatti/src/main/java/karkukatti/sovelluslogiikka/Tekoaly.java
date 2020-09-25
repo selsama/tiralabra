@@ -26,7 +26,7 @@ public class Tekoaly {
         } else {
             mahdollisetSiirrot = this.getTyhjat(seinat);
         }
-        int kuinkaSyvalle = 1;
+        int kuinkaSyvalle = 2;
         Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
         return siirto.getKohde();
     }
@@ -66,7 +66,7 @@ public class Tekoaly {
                     boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = new Siirto(siirronKohde, 
-                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(siirronKohde), moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
+                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(kissa), moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
                 }
             }
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
