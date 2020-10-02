@@ -18,19 +18,23 @@ public class Peli {
     private Tekoaly tekoaly;
     private boolean tekoalyOhjaaKissaa;
     private boolean tekoalyOhjaaSeinia;
+    private Lista<Sijainti> alkuseinat;
     
     /**
      * Luo uuden Peli-instanssin annetussa koossa.
      * @param koko Haluttu pelialueen koko
-     * @param pelaajat Haluttu pelaajat vs tietokone-asetus (0 = ihminen vastaan kissa, 1 = ihminen vastaan seinät, 2 = kaksi ihmistä)
+     * @param pelaajat Haluttu pelaajat vs tietokone-asetus (-1 = tietokone vastaan tietokone, 0 = ihminen vastaan kissa, 1 = ihminen vastaan seinät, 2 = kaksi ihmistä)
      */
-    public Peli(int koko, int pelaajat) {
+    public Peli(int koko, int pelaajat, int montakoSeinaa) {
         seinat = new boolean[koko][koko];
         kissanVuoro = false;
         peliOhi = false;
         kissanSijainti = new Sijainti(koko / 2, koko / 2);
         tekoaly = new Tekoaly();
-        if (pelaajat == 0) {
+        if (pelaajat == -1) {
+            tekoalyOhjaaKissaa = true;
+            tekoalyOhjaaSeinia = true;
+        } else if (pelaajat == 0) {
             tekoalyOhjaaKissaa = true;
             tekoalyOhjaaSeinia = false;
         } else if (pelaajat == 1) {
@@ -41,6 +45,7 @@ public class Peli {
             tekoalyOhjaaKissaa = false;
             tekoalyOhjaaSeinia = false;
         }
+        this.teeAloitus(montakoSeinaa,2);
     }
     
     /**
@@ -179,6 +184,10 @@ public class Peli {
         return this.kissaVoitti;
     }
     
+    public Lista<Sijainti> getAlkuseinat() {
+        return this.alkuseinat;
+    }
+    
     public boolean onkoPelaajanVuoro() {
         if (tekoalyOhjaaKissaa && kissanVuoro) {
             return false;
@@ -186,5 +195,34 @@ public class Peli {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Satunnaistaa pelin aloituksen. Tekee kullekin laidalle max n seinää, ja sijoittaa kissan aloittamaan m ruudun säteellä keskikohdasta.
+     * @param n 
+     */
+    private void teeAloitus(int n, int m) {
+        alkuseinat = new Lista<>();   
+        if (n == 0) {
+            return;
+        }
+        int a = seinat.length / 2 - m;
+        kissanSijainti = new Sijainti(a + this.annaSatunnainenLuku(m), a + this.annaSatunnainenLuku(m));
+        a = seinat.length;
+        while (alkuseinat.getKoko() < n) {
+            Sijainti s = new Sijainti(this.annaSatunnainenLuku(a), this.annaSatunnainenLuku(a));
+            if (this.teeSeina(s)) {
+                alkuseinat.lisaa(s);
+            }
+        }
+    }
+    
+    /**
+     * Antaa pseudorandomin luvun väliltä 0-n.
+     * @param n
+     * @return 
+     */
+    private int annaSatunnainenLuku(int n) {
+        return (int) (System.nanoTime() % n);
     }
 }

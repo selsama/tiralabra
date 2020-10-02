@@ -7,6 +7,7 @@ package karkukatti.kayttoliittyma;
 
 import karkukatti.sovelluslogiikka.Peli;
 import karkukatti.sovelluslogiikka.Sijainti;
+import karkukatti.sovelluslogiikka.Lista;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -32,17 +33,19 @@ public class KattiKayttol extends Application {
     private Button asetuksetNappi;
     private Pane pelialue;
     private int pelaajat;
+    private int seinienMaaraAlussa;
 
     @Override
     public void init() {
         this.pelaajat = 3;
-        this.peli = new Peli(10, pelaajat);
+        this.seinienMaaraAlussa = 5;
+        this.peli = new Peli(13, pelaajat, seinienMaaraAlussa);
         this.vuoro = new Label();
         this.ilmoitus = new Label();
         ilmoitus.setTextFill(Color.RED);
         this.uusiPeliNappi = new Button("Uusi peli");
         uusiPeliNappi.setOnAction(e -> {
-            this.peli = new Peli(this.peli.getKoko(), pelaajat);
+            this.peli = new Peli(this.peli.getKoko(), pelaajat, seinienMaaraAlussa);
             this.teePelinakyma();
             this.ikkuna.setScene(pelinakyma);
         });
@@ -98,6 +101,10 @@ public class KattiKayttol extends Application {
             }
         }
         pelilauta[peli.getKissanSijainti().getX()][peli.getKissanSijainti().getY()].setFill(Color.BROWN);
+        Lista<Sijainti> seinat = peli.getAlkuseinat();
+        for (int i = 0; i < seinat.getKoko(); i++) {
+            pelilauta[seinat.hae(i).getX()][seinat.hae(i).getY()].setFill(Color.GREENYELLOW);
+        }
         return alue;
     }
     

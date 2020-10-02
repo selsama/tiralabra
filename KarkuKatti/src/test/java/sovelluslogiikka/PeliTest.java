@@ -18,7 +18,7 @@ public class PeliTest {
     private Peli peli;
     
     public PeliTest() {
-        peli = new Peli(5, 2);
+        peli = new Peli(5, 2, 0);
     }
     
     @Test
@@ -36,7 +36,7 @@ public class PeliTest {
     
     @Test
     public void TekoalyPelaaTesti() {
-        peli = new Peli(5, 1);
+        peli = new Peli(5, 1, 0);
         assertTrue("Peli ei tee ihmisen siirtoa, vaikka pitäisi", peli.reagoiKlikkaukseen(2, 1));
         Sijainti s = peli.tekoalyPelaa();
         assertFalse("Tekoäly ei tee siirtoa, vaikka pitäisi (seinillä)", s == null);
@@ -44,14 +44,14 @@ public class PeliTest {
         assertTrue("Peli ei tehnyt seinää tekoälyn valitsemaan paikkaan", seinat[s.getX()][s.getY()]);
         assertEquals("Tekoäly tekee siirron, vaikka on kissan (ihmisen) vuoro", null, peli.tekoalyPelaa());
         
-        peli = new Peli(5, 0);
+        peli = new Peli(5, 0, 0);
         assertEquals("Tekoäly tekee siirron, vaikka on seinien (ihmisen) vuoro", null, peli.tekoalyPelaa());
         peli.reagoiKlikkaukseen(1,1);
         s = peli.tekoalyPelaa();
         assertFalse("Tekoäly ei tee siirtoa, vaikka pitäisi (kissalla)", s == null);
         assertTrue("Peli ei siirtänyt kissaa tekoälyn valitsemaan paikkaan", s.onSama(peli.getKissanSijainti()));
         
-        peli = new Peli(5,2);
+        peli = new Peli(5,2, 0);
         assertEquals("Tekoäly tekee siirron, vaikka sen ei pitäisi pelata ollenkaan", null, peli.tekoalyPelaa());        
     }
     
