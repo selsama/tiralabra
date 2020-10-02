@@ -55,4 +55,49 @@ public class PeliTest {
         assertEquals("Tekoäly tekee siirron, vaikka sen ei pitäisi pelata ollenkaan", null, peli.tekoalyPelaa());        
     }
     
+    private void ymparoiAlue(int n, Sijainti aloitus) {
+        Sijainti yla = aloitus;
+        Sijainti vasen = aloitus;
+        Sijainti oikea = new Sijainti(aloitus.getX() + n - 1, aloitus.getY());
+        Sijainti ala = new Sijainti(aloitus.getX(), aloitus.getY() + n - 1);
+        
+        for (int i = 0; i < n; i++) {
+            peli.teeSeina(yla);
+            yla = new Sijainti(yla.getX() + 1, yla.getY());
+            peli.teeSeina(ala);
+            ala = new Sijainti(ala.getX() + 1, ala.getY());
+            peli.teeSeina(vasen);
+            vasen = new Sijainti(vasen.getX(), vasen.getY() + 1);
+            peli.teeSeina(oikea);
+            oikea = new Sijainti(oikea.getX(), oikea.getY() + 1);
+        }
+    }
+    
+    @Test
+    public void PelinLoppumisTesti() {
+        peli = new Peli(3, 2, 0);
+        this.ymparoiAlue(3, new Sijainti(0,0));
+        assertTrue("Peli ei tunnista kissan hävinneen", peli.havisikoKissa());
+        peli = new Peli(5, 2, 0);
+        peli.siirraKissaa(new Sijainti(1, 2));
+        this.ymparoiAlue(3, new Sijainti(0,1));
+        assertTrue("Peli ei tunnista kissan hävinneen", peli.havisikoKissa());
+        peli = new Peli(3, 2, 0);
+        peli.siirraKissaa(new Sijainti(1,0));
+        assertTrue("Peli ei tunnista kissan voittaneen", peli.voittikoKissa()); 
+    }
+    
+    @Test
+    public void SatunnaistettuAloitusTesti() {
+        for (int i = 0; i < 15; i++) {
+            peli = new Peli(7, 2, 3);
+            Lista<Sijainti> seinat = peli.getAlkuseinat();
+            Sijainti kissa = peli.getKissanSijainti();
+            assertEquals("Peli tekee väärän määrän seiniä", 3, seinat.getKoko());
+            if (kissa.getX() == 0 || kissa.getX() == 6 || kissa.getY() == 6 || kissa.getY() == 0) {
+                fail("Kissa aloittaa liian kaukaa");
+            }
+        }
+    }
+    
 }

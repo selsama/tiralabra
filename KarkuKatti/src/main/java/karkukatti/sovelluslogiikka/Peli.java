@@ -45,7 +45,7 @@ public class Peli {
             tekoalyOhjaaKissaa = false;
             tekoalyOhjaaSeinia = false;
         }
-        this.teeAloitus(montakoSeinaa,2);
+        this.teeAloitus(montakoSeinaa, 2);
     }
     
     /**
@@ -146,7 +146,7 @@ public class Peli {
      * Metodi tarkistaa, pääsikö kissa reunaan.
      * @return true, jos kissa voitti, muuten false.
      */
-    private boolean voittikoKissa() {
+    public boolean voittikoKissa() {
         if (kissanSijainti.getX() == 0 || kissanSijainti.getX() == seinat.length - 1) {
             return true;
         }
@@ -156,7 +156,11 @@ public class Peli {
         return false;
     }
     
-    private boolean havisikoKissa() {
+    /**
+     * Metodi tarkistaa, onko kissalla reittejä ulos jäljellä.
+     * @return true, jos kissa hävisi (eli ei pääse enää ulos, muuten false
+     */
+    public boolean havisikoKissa() {
         return (!tekoaly.onkoReittejaJaljella(seinat, kissanSijainti));
     }
     

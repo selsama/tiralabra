@@ -100,7 +100,7 @@ public class Jono<T> {
         T poistettu = taulukko[vika];
         vika--;
         if (vika < 0) {
-            vika+= taulukko.length;
+            vika += taulukko.length;
         }
         muistissa--;
         this.pienennaTaulukkoaJosTarve();
