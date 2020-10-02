@@ -21,6 +21,10 @@ public class Jono<T> {
         muistissa = 0;
     }
     
+    /**
+     * Lisää jonon loppuun uuden arvon. Suurentaa varattua taulukkoa tarvittaessa.
+     * @param uusi 
+     */
     public void lisaaLoppuun(T uusi) {
         vika++;
         if (vika == taulukko.length) {
@@ -31,6 +35,10 @@ public class Jono<T> {
         this.suurennaTaulukkoaJosTarve();
     }
     
+    /**
+     * Lisää jonon alkuun uuden arvon. Suurentaa taulukkoa tarvittaessa.
+     * @param uusi 
+     */
     public void lisaaAlkuun(T uusi) {
         eka--;
         if (eka < 0) {
@@ -41,6 +49,10 @@ public class Jono<T> {
         this.suurennaTaulukkoaJosTarve();
     }
     
+    /**
+     * Hakee, mutta ei poista, jonon ensimmäisen arvon.
+     * @return Jonon ensimmäinen arvo tai null, jos jono on tyhjä
+     */
     public T haeAlusta() {
         if (muistissa == 0) {
             return null;
@@ -48,6 +60,10 @@ public class Jono<T> {
         return taulukko[eka];
     }
     
+    /**
+     * Hakee, ei poista, jonon viimeisen arvon.
+     * @return Jonon viimeinen arvo tai null, jos jono on tyhjä
+     */
     public T haeLopusta() {
         if (muistissa == 0) {
             return null;
@@ -55,6 +71,10 @@ public class Jono<T> {
         return taulukko[vika];
     }
     
+    /**
+     * Palauttaa ja poistaa jonon ensimmäisen arvon. Pienentää varattua taulukkoa tarvittaessa.
+     * @return Arvo, joka oli jonossa ensimmäisenä. Null jos jono oli tyhjä.
+     */
     public T poistaAlusta() {
         if (muistissa == 0) {
             return null;
@@ -69,6 +89,10 @@ public class Jono<T> {
         return poistettu;
     }
     
+    /**
+     * Palauttaa ja poistaa jonon viimeisen arvon. Pienentää varattua taulukkoa tarvittaessa.
+     * @return Arvo, joka oli viimeisenä. Null jos jono oli tyhjä.
+     */
     public T poistaLopusta() {
         if (muistissa == 0) {
             return null;
@@ -83,10 +107,17 @@ public class Jono<T> {
         return poistettu;
     }
     
+    /**
+     * Palautta jonossa olevien arvojen määrän.
+     * @return 
+     */
     public int getKoko() {
         return muistissa;
     }
     
+    /**
+     * Tarkistaa, tarvitseeko taulukko lisää tilaa. Kaksinkertaistaa taulukon koon, jos edellinen oli täynnä.
+     */
     private void suurennaTaulukkoaJosTarve() {
         if (muistissa < taulukko.length) {
             return;
@@ -106,6 +137,9 @@ public class Jono<T> {
         
     }
     
+    /**
+     * Tarkistaa, tarvitseeko taulukkoa pienentää. Puolittaa taulukon koon, jos vanhasta oli käytössä vain neljäsosa.
+     */
     private void pienennaTaulukkoaJosTarve() {
         if (muistissa > taulukko.length / 4) {
             return;
