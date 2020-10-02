@@ -78,7 +78,8 @@ public class KattiKayttol extends Application {
         pelinakyma.setOnMousePressed(e -> {
             this.reagoiKlikkaukseen((int) e.getSceneX(), (int) e.getSceneY());
         });
-        vuoro.setText("Pelaaja aloittaa");
+        String teksti = peli.getKissanVuoro() ? "Kissa aloittaa" : "Seinäpelaaja aloittaa";
+        vuoro.setText(teksti);
     }
     
     /**
@@ -150,7 +151,7 @@ public class KattiKayttol extends Application {
             if (this.peli.reagoiKlikkaukseen(x, y)) {
                 if (kissanVuoro) {
                     this.siirraKissaa(uusi, missaKissaOli);
-                    vuoro.setText("Pelaajan vuoro");
+                    vuoro.setText("Seinäpelaajan vuoro");
                 } else {
                     this.teeSeinaruutu(uusi);
                     vuoro.setText("Kissan vuoro");

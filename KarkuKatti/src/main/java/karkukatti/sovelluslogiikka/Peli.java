@@ -36,6 +36,7 @@ public class Peli {
         } else if (pelaajat == 1) {
             tekoalyOhjaaKissaa = false;
             tekoalyOhjaaSeinia = true;
+            kissanVuoro = true;
         } else {
             tekoalyOhjaaKissaa = false;
             tekoalyOhjaaSeinia = false;
