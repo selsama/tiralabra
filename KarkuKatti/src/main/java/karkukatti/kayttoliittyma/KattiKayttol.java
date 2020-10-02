@@ -34,12 +34,14 @@ public class KattiKayttol extends Application {
     private Pane pelialue;
     private int pelaajat;
     private int seinienMaaraAlussa;
+    private int pelilaudanKoko;
 
     @Override
     public void init() {
         this.pelaajat = 3;
         this.seinienMaaraAlussa = 5;
-        this.peli = new Peli(13, pelaajat, seinienMaaraAlussa);
+        this.pelilaudanKoko = 13;
+        this.peli = new Peli(pelilaudanKoko, pelaajat, seinienMaaraAlussa);
         this.vuoro = new Label();
         this.ilmoitus = new Label();
         ilmoitus.setTextFill(Color.RED);
@@ -125,9 +127,32 @@ public class KattiKayttol extends Application {
         pelaaKissalla.setOnAction(e -> {
             this.pelaajat = 1;
         });
+        HBox seinienMaara = new HBox();
+        Label ohje = new Label("Muuta alussa luotavien seinien määrää:");
+        TextField seinat = new TextField();
+        Button muuta = new Button("Muuta");
+        Label virhe = new Label();
+        virhe.setTextFill(Color.RED);
+        muuta.setOnAction(e -> {
+            String s = seinat.getText();
+            try {
+                int a = Integer.parseInt(s);
+                if (a < 0) {
+                    virhe.setText("Luvun pitää olla positiivinen");
+                } else if (a > 2 * pelilaudanKoko) {
+                    virhe.setText("Luvun pitää olla pienempi kuin " + (2 * pelilaudanKoko));
+                } else {
+                    seinienMaaraAlussa = a;
+                    virhe.setText("");
+                }
+            } catch (Exception ex) {
+                virhe.setText("Ole hyvä ja syötä kokonaisluku numeroina");
+            }
+        });
+        seinienMaara.getChildren().addAll(ohje, seinat, muuta, virhe);
         asetukset.getChildren().addAll(kaksiPelaajaa, pelaaSeinilla, pelaaKissalla);
         VBox kaikki = new VBox();
-        kaikki.getChildren().addAll(ylavalikko, asetukset);
+        kaikki.getChildren().addAll(ylavalikko, asetukset, seinienMaara);
         asetusnakyma = new Scene(kaikki, 500, 500);
     }
     
