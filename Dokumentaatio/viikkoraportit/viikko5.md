@@ -5,3 +5,5 @@ Tällä viikolla käytin aikaa pelin tasapainottamiseen ja paranteluun. Muutin k
 Lisäksi tein Jono-luokan ja sen myötä poistin viimeisetkin Javan valmiit tietorakenteet importteineen käytöstä. Kirjoitin myös lisää testejä ja tein vertaisarvioinnin.
 
 Ensi viikolle jää vielä suorituskykytestaus ja sen yhteydessä alpha-beta-karsinnan toteutus, sekä dokumentaation tekeminen.
+
+Tällä viikolla käytin projektiin n. 10h.
