@@ -18,7 +18,7 @@ public class PeliTest {
     private Peli peli;
     
     public PeliTest() {
-        peli = new Peli(5, 1);
+        peli = new Peli(5, 2);
     }
     
     @Test
@@ -36,6 +36,8 @@ public class PeliTest {
     
     @Test
     public void TekoalyPelaaTesti() {
+        peli = new Peli(5, 1);
+        assertTrue("Peli ei tee ihmisen siirtoa, vaikka pitäisi", peli.reagoiKlikkaukseen(2, 1));
         Sijainti s = peli.tekoalyPelaa();
         assertFalse("Tekoäly ei tee siirtoa, vaikka pitäisi (seinillä)", s == null);
         boolean [][] seinat = peli.getSeinat();

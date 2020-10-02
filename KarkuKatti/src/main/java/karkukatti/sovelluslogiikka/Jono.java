@@ -114,7 +114,7 @@ public class Jono<T> {
         int a = eka;
         for (int i = 0; i < muistissa; i++) {
             if (a == taulukko.length) {
-                a =- taulukko.length;
+                a = 0;
             }
             uusi[i] = taulukko[a];
             a++;

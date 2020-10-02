@@ -5,7 +5,6 @@
  */
 package karkukatti.sovelluslogiikka;
 
-import java.util.*;
 /** Luokka pelitilanteen arvioimiseen ja parhaan siirron valitsemiseen.
  *
  * @author salmison
@@ -120,13 +119,12 @@ public class Tekoaly {
     public int[][] leveyshaku(boolean[][] seinat, Sijainti kissa) {
         int[][] etaisyys = this.teeTuhatTaulukko(seinat.length);
         boolean[][] vierailtu = new boolean[seinat.length][seinat.length];
-        ArrayDeque<Sijainti> jono = new ArrayDeque<>();
-        jono.add(kissa);
+        Jono<Sijainti> jono = new Jono<>();
+        jono.lisaaLoppuun(kissa);
         etaisyys[kissa.getX()][kissa.getY()] = 0;
         vierailtu[kissa.getX()][kissa.getY()] = true;
-        while (!jono.isEmpty()) {
-            Sijainti s = jono.getFirst();
-            jono.removeFirst();
+        while (jono.getKoko() > 0) {
+            Sijainti s = jono.poistaAlusta();
             Sijainti[] naapurit = this.getNaapurit(s);
             for (int i = 0; i < naapurit.length; i++) {
                 int x = naapurit[i].getX();
@@ -137,7 +135,7 @@ public class Tekoaly {
                 if (vierailtu[x][y] || seinat[x][y]) {
                     continue;
                 }
-                jono.addLast(naapurit[i]);
+                jono.lisaaLoppuun(naapurit[i]);
                 vierailtu[x][y] = true;
                 etaisyys[x][y] = etaisyys[s.getX()][s.getY()] + 1;
             }
