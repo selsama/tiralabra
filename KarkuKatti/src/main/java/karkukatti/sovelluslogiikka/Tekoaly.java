@@ -28,7 +28,7 @@ public class Tekoaly {
             mahdollisetSiirrot = this.getTyhjat(seinat);
         }
         int kuinkaSyvalle = 2;
-        Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle);
+        Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle, -1);
         return siirto.getKohde();
     }
     /**
@@ -41,7 +41,7 @@ public class Tekoaly {
      * @param montakoKierrostaHalutaan kuinka syvä rekursio halutaan
      * @return paras Siirto tässä tilanteessa (Sijainti ja hyvyysarvo)
      */
-    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan) {
+    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan, int edellisenTasonParas) {
         Siirto paras = null;
         for (int i = 0; i < mihinVoiSiirtaa.length; i++) { // käydään läpi mahdolliset siirtovaihtoehdot
             Sijainti siirronKohde = mihinVoiSiirtaa[i];
@@ -59,28 +59,34 @@ public class Tekoaly {
                     uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
                 }
             } else { // jos halutaan syvemmälle puuhun, kutsutaan minMaxia rekursiivisesti
+                int apu;
+                if (paras == null) {
+                    apu = -1;
+                } else {
+                    apu = (int) paras.getHyvyys();
+                }
                 if (onkoKissanKierros) { // jos on kissan kierros, tämä tarkoittaa, että kutsuttava kierros on seinäpelaajan kierros, eli siirronKohde on kissan uusi sijainti, ja mahdolliset siirrot ovat kaikki tyhjät ruudut
                     Sijainti[] uudetVaihtoehdot = this.getTyhjat(seinat);
                     uusi = new Siirto(siirronKohde,
-                            this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
+                            this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan, apu).getHyvyys());
                 } else { // jos ei ole kissan vuoro, tämä tarkoittaa että kutsuttava kierros on kissan kierros, eli kissa pysyy paikoillaan, seinät ovat muuten samat mutta siirronKohde muutetaan seinäruuduksi, ja vaihtoehdot ovat uuden sijainnin viereiset ruudut
                     boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
                     uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = new Siirto(siirronKohde, 
-                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(kissa), moneskoKierros + 1, montakoKierrostaHalutaan).getHyvyys());
+                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(kissa), moneskoKierros + 1, montakoKierrostaHalutaan, apu).getHyvyys());
                 }
             }
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
                 paras = uusi;
             } else if (onkoKissanKierros) { // jos on kissan kierros, valitaan maksimi
-                if (uusi.getHyvyys() == 1000) { // jos siirto on jo paras mahdollinen, palautetaan se eikä jatketa rekursiota
+                if (uusi.getHyvyys() > edellisenTasonParas && edellisenTasonParas != -1 || uusi.getHyvyys() == 100) { // alfa-beeta karsinta
                     return uusi;
                 }
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
                     paras = uusi;
                 }
             } else { // jos ei ole kissan vuoro, valitaan minimi
-                if (uusi.getHyvyys() == 0) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota
+                if (uusi.getHyvyys() == 0 || uusi.getHyvyys() < edellisenTasonParas && edellisenTasonParas != -1) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota || alfa-beeta karsinta
                     return uusi;
                 }
                 if (paras.getHyvyys() > uusi.getHyvyys()) {
