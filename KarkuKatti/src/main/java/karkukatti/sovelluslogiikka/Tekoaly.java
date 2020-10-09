@@ -41,7 +41,7 @@ public class Tekoaly {
      * @param montakoKierrostaHalutaan kuinka syvä rekursio halutaan
      * @return paras Siirto tässä tilanteessa (Sijainti ja hyvyysarvo)
      */
-    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan, int edellisenTasonParas) {
+    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan, double edellisenTasonParas) {
         Siirto paras = null;
         for (int i = 0; i < mihinVoiSiirtaa.length; i++) { // käydään läpi mahdolliset siirtovaihtoehdot
             Sijainti siirronKohde = mihinVoiSiirtaa[i];
@@ -59,11 +59,11 @@ public class Tekoaly {
                     uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
                 }
             } else { // jos halutaan syvemmälle puuhun, kutsutaan minMaxia rekursiivisesti
-                int apu;
+                double apu;
                 if (paras == null) {
                     apu = -1;
                 } else {
-                    apu = (int) paras.getHyvyys();
+                    apu = paras.getHyvyys();
                 }
                 if (onkoKissanKierros) { // jos on kissan kierros, tämä tarkoittaa, että kutsuttava kierros on seinäpelaajan kierros, eli siirronKohde on kissan uusi sijainti, ja mahdolliset siirrot ovat kaikki tyhjät ruudut
                     Sijainti[] uudetVaihtoehdot = this.getTyhjat(seinat);
@@ -79,15 +79,25 @@ public class Tekoaly {
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
                 paras = uusi;
             } else if (onkoKissanKierros) { // jos on kissan kierros, valitaan maksimi
-                if ((uusi.getHyvyys() > edellisenTasonParas && edellisenTasonParas != -1) || uusi.getHyvyys() == 1000) { // alfa-beeta karsinta
+                if (uusi.getHyvyys() == 1000) {
                     return uusi;
+                }
+                if (edellisenTasonParas != -1) {
+                    if (uusi.getHyvyys() > edellisenTasonParas) {
+                        return uusi;
+                    }
                 }
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
                     paras = uusi;
                 }
             } else { // jos ei ole kissan vuoro, valitaan minimi
-                if (uusi.getHyvyys() == 0 || (uusi.getHyvyys() < edellisenTasonParas && edellisenTasonParas != -1)) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota || alfa-beeta karsinta
+                if (uusi.getHyvyys() == 0) {
                     return uusi;
+                }
+                if (edellisenTasonParas != -1) {
+                    if (uusi.getHyvyys() < edellisenTasonParas) {
+                        return uusi;
+                    }
                 }
                 if (paras.getHyvyys() > uusi.getHyvyys()) {
                     paras = uusi;
@@ -242,7 +252,7 @@ public class Tekoaly {
      * Laskee annetun tilanteen hyvyyden kissan kannalta. Mitä suurempi arvo, sitä parempi.
      * @param seinat Pelilaudan tilanne, true merkitsee seinäruutua
      * @param kissa Kissan sijainti
-     * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (0:100).
+     * @return tilanteen hyvyys kissan kannalta. Mitä suurempi, sen parempi. Välillä (0:1000).
      */
     public double laskeTilanteenHyvyys(boolean[][] seinat, Sijainti kissa) {
         int max = 1000;
