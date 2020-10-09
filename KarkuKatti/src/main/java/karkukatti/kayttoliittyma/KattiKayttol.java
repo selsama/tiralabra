@@ -37,10 +37,11 @@ public class KattiKayttol extends Application {
     private int seinienMaaraAlussa;
     private int pelilaudanKoko;
     private Paint kissa;
+    private Paint kissaLaatikossa;
 
     @Override
     public void init() {
-        this.teeKissa();
+        this.teeKuvat();
         this.pelaajat = 3;
         this.seinienMaaraAlussa = 5;
         this.pelilaudanKoko = 11;
@@ -165,12 +166,9 @@ public class KattiKayttol extends Application {
         kumpiVoitti.setFont(new Font(24));
         Label viesti = new Label("Aloita uusi peli ylävalikosta tai siirry asetuksiin");
         VBox kaikki = new VBox();
-        kaikki.getChildren().addAll(ylavalikko, peliLoppu, kumpiVoitti, viesti);
-        if (teksti.equals("Kissa voitti!")) {
-            Rectangle voittaja = new Rectangle(400, 400);
-            voittaja.setFill(kissa);
-            kaikki.getChildren().add(voittaja);
-        }        
+        Rectangle voittaja = new Rectangle(400, 400);
+        voittaja.setFill(teksti.equals("Kissa voitti!") ? kissa : kissaLaatikossa);
+        kaikki.getChildren().addAll(ylavalikko, peliLoppu, kumpiVoitti, viesti, voittaja);
         peliohinakyma = new Scene(kaikki, 500, 500);
     }
     
@@ -235,12 +233,14 @@ public class KattiKayttol extends Application {
         vuoro.setText("Kissan vuoro");
     }
     
-    private void teeKissa() {
+    private void teeKuvat() {
         try {
             this.kissa = new ImagePattern(new Image("file:katti.png"));
+            this.kissaLaatikossa = new ImagePattern(new Image("file:seina.png"));
         } catch (Exception e) {
             this.kissa = Color.BROWN;
-            System.out.println("hmm.. " + e.getMessage());
+            this.kissaLaatikossa = Color.GREENYELLOW;
+            System.out.println("jos haluat nähdä kuvia, tarkista että tiedostot katti.png ja seina.png ovat oikeassa paikassa" + e.getMessage());
         }
     }
     
