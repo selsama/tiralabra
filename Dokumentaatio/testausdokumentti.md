@@ -12,7 +12,7 @@ Testikattavuutta laskevat Peli-luokan getterit, jotka ovat hyvin yksinkertaisia.
 
 ### Ohjelmalliset testit
 
-Projektissa on kaksi ajettavaa testiluokkaa, jotka löytyvät pakkauksesta karkukatti/testaus. Testejä on ajettu erilaisilla arvoilla, lisäksi välillä muuttaen itse ohjelmakoodia. Parametreja, tuloksia ja niiden herättämiä ajatuksia on koottu erilliseen [dokumenttiin]()
+Projektissa on kaksi ajettavaa testiluokkaa, jotka löytyvät pakkauksesta karkukatti/testaus. Testejä on ajettu erilaisilla arvoilla, lisäksi välillä muuttaen itse ohjelmakoodia. Parametreja, tuloksia ja niiden herättämiä ajatuksia on koottu erilliseen [dokumenttiin](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/testituloksia.md)
 
 Ohjelman tasapainoisuutta testaa TasapainoTestaaja-luokka, sen lisäksi että sitä on testailtu käsin.
 
