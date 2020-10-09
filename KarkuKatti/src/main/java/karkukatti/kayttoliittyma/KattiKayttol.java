@@ -40,7 +40,7 @@ public class KattiKayttol extends Application {
     public void init() {
         this.pelaajat = 3;
         this.seinienMaaraAlussa = 5;
-        this.pelilaudanKoko = 13;
+        this.pelilaudanKoko = 11;
         this.peli = new Peli(pelilaudanKoko, pelaajat, seinienMaaraAlussa);
         this.vuoro = new Label();
         this.ilmoitus = new Label();
