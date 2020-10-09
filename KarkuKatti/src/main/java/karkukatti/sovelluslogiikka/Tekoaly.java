@@ -32,7 +32,7 @@ public class Tekoaly {
         return siirto.getKohde();
     }
     /**
-     * MinMax-algoritmi, joka valitsee parhaan siirron. Algoritmi kutsuu itseään rekursiivisesti ja olettaa joka tasolla, että vuorossa oleva pelaaja tekee itsensä kannalta parhaan siirron. 
+     * Minimax-algoritmi, joka valitsee parhaan siirron. Algoritmi kutsuu itseään rekursiivisesti ja olettaa joka tasolla, että vuorossa oleva pelaaja tekee itsensä kannalta parhaan siirron. 
      * @param seinat pelilaudan tilanne
      * @param kissa kissan sijainti
      * @param onkoKissanKierros true, jos on kissan vuoro, muuten false

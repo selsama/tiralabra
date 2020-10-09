@@ -1,6 +1,6 @@
 ## Suorituskykytestien tuloksia
 
-Ennen alpha-betaa, manuaalisella taulukon kopioinnilla, syvyys 2:
+#### Ennen alpha-betaa, manuaalisella taulukon kopioinnilla, syvyys 2:
 
 Pelin alustuksen keston mediaani 10x10-laudalla: 0.011387 ms
 Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 6.768882 ms
@@ -27,7 +27,8 @@ Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 37.774597 ms
 
 Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 705.87352 ms
 
-Käytetty System.arraycopyä, ei vielä alpha-betaa:
+#### Käytetty System.arraycopyä, ei vielä alpha-betaa:
+
 Syvyys 2:
 
 Pelin alustuksen keston mediaani 10x10-laudalla: 0.01222 ms
@@ -51,6 +52,36 @@ Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 46.996081 ms
 
 Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 887.621288 ms
 
+--> Ei huomattavaa eroa, palautetaan manuaalinen taulukon kopiointi käyttöön
+
+#### Lisätty alpha-beta karsinta
+
+Syvyys 2:
+
+Pelin alustuksen keston mediaani 10x10-laudalla: 0.01327 ms
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 4.412537 ms
+
+Pelin alustuksen keston mediaani 100x100-laudalla: 0.035688 ms
+Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 5.680892 ms
+
+Pelin alustuksen keston mediaani 1000x1000-laudalla: 0.3573 ms
+Tekoälyn siirron valinnan keston mediaani 1000x1000-laudalla: 1402.516528 ms
+
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 1.432489 ms
+
+Syvyys 4:
+
+Pelin alustuksen keston mediaani 10x10-laudalla: 0.011142 ms
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 244.912678 ms
+
+Pelin alustuksen keston mediaani 100x100-laudalla: 0.026116 ms
+Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 38.1103 ms
+
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 209.205917 ms
+
+--> Ero on todella huomattava. 
+
+Huomataan, että siirron valinta on hitaampaa 10x10 laudalla kuin 100x100. Algoritmi luultavasti "jumittaa" jotakin yrittäessään tutkia tilannetta monta rekursiota yli siitä, kun peli päättyy. Ihmetellään, mistä tämä voisi johtua.
 
 ## Tasapainotestien tuloksia: 
 

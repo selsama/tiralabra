@@ -21,7 +21,7 @@ public class TasapainoTestaaja {
         int montakoPelattu = 0;
         int kissaVoitti = 0;
         for (int i = 0; i < otos; i++) {
-            Peli p = new Peli(koko, -1, 2);
+            Peli p = new Peli(koko, -1, 7);
             while (!p.getPeliLoppui()) {
                 p.tekoalyPelaa();
             }
