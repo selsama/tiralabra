@@ -42,6 +42,7 @@
                     <excludes>
                         <exclude>karkukatti/kayttoliittyma/*</exclude>
                         <exclude>karkukatti/main/*</exclude>
+                        <exclude>karkukatti/testaus/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

@@ -10,7 +10,6 @@ import karkukatti.sovelluslogiikka.apuluokkia.Lista;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import karkukatti.sovelluslogiikka.*;
-import java.util.*;
 
 /**
  *
@@ -109,10 +108,5 @@ public class TekoalyTest {
         vastaus = aly.laskeSiirto(seinat, new Sijainti(1,1), false);
         assertTrue("laskeSiirto valitsee väärin seinälle", vastaus.onSama(new Sijainti(0,1)));
     }
-//    
-//    @Test
-//    public void minMaxTesti() {
-//        
-//    }
     
 }
