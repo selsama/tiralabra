@@ -5,6 +5,8 @@
  */
 package sovelluslogiikka;
 
+import karkukatti.sovelluslogiikka.apuluokkia.Sijainti;
+import karkukatti.sovelluslogiikka.apuluokkia.Lista;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import karkukatti.sovelluslogiikka.*;

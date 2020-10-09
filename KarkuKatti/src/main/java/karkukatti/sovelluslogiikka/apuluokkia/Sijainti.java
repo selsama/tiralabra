@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package karkukatti.sovelluslogiikka;
+package karkukatti.sovelluslogiikka.apuluokkia;
 
 /**
  * Luokka sijainnin x- ja y-koordinaatin tallettamiseen ja vertailemiseen.

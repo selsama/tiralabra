@@ -5,6 +5,9 @@
  */
 package karkukatti.sovelluslogiikka;
 
+import karkukatti.sovelluslogiikka.apuluokkia.Sijainti;
+import karkukatti.sovelluslogiikka.apuluokkia.Lista;
+
 /**
  *
  * @author salmison

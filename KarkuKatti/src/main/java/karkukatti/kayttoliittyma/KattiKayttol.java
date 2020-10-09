@@ -6,8 +6,8 @@
 package karkukatti.kayttoliittyma;
 
 import karkukatti.sovelluslogiikka.Peli;
-import karkukatti.sovelluslogiikka.Sijainti;
-import karkukatti.sovelluslogiikka.Lista;
+import karkukatti.sovelluslogiikka.apuluokkia.Sijainti;
+import karkukatti.sovelluslogiikka.apuluokkia.Lista;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

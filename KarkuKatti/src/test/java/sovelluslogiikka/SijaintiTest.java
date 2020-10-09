@@ -7,7 +7,7 @@ package sovelluslogiikka;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import karkukatti.sovelluslogiikka.Sijainti;
+import karkukatti.sovelluslogiikka.apuluokkia.Sijainti;
 
 /**
  *

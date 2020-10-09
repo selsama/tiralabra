@@ -7,7 +7,7 @@ package sovelluslogiikka;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import karkukatti.sovelluslogiikka.Jono;
+import karkukatti.sovelluslogiikka.apuluokkia.Jono;
 import java.util.*;
 /**
  *

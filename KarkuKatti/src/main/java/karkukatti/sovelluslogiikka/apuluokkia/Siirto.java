@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package karkukatti.sovelluslogiikka;
+package karkukatti.sovelluslogiikka.apuluokkia;
 
 /**
  *Luokka mahdollisten siirtojen tallentamiseen. Pitää sisällään tiedon siirron kohteesta ja siitä, kuinka hyvä siirto on.

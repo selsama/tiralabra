@@ -5,6 +5,8 @@
  */
 package karkukatti.sovelluslogiikka;
 
+import karkukatti.sovelluslogiikka.apuluokkia.*;
+
 /** Luokka pelitilanteen arvioimiseen ja parhaan siirron valitsemiseen.
  *
  * @author salmison

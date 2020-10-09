@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package karkukatti.sovelluslogiikka;
+package karkukatti.sovelluslogiikka.apuluokkia;
 
 /**
  * Luokka jonon käsittelemiseen.Luokka tarjoaa metodit jonon loppuun ja alkuun lisäämiseen, ja alusta ja lopusta hakemiseen ja poistamiseen. Kaikki operaatiot toimivat keskimäärin ajassa O(1).
