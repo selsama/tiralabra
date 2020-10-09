@@ -79,14 +79,14 @@ public class Tekoaly {
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
                 paras = uusi;
             } else if (onkoKissanKierros) { // jos on kissan kierros, valitaan maksimi
-                if (uusi.getHyvyys() > edellisenTasonParas && edellisenTasonParas != -1 || uusi.getHyvyys() == 100) { // alfa-beeta karsinta
+                if ((uusi.getHyvyys() > edellisenTasonParas && edellisenTasonParas != -1) || uusi.getHyvyys() == 1000) { // alfa-beeta karsinta
                     return uusi;
                 }
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
                     paras = uusi;
                 }
             } else { // jos ei ole kissan vuoro, valitaan minimi
-                if (uusi.getHyvyys() == 0 || uusi.getHyvyys() < edellisenTasonParas && edellisenTasonParas != -1) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota || alfa-beeta karsinta
+                if (uusi.getHyvyys() == 0 || (uusi.getHyvyys() < edellisenTasonParas && edellisenTasonParas != -1)) { // jos siirto on jo paras mahdollinen (seinäpelaajalle), palautetaan se eikä jatketa rekursiota || alfa-beeta karsinta
                     return uusi;
                 }
                 if (paras.getHyvyys() > uusi.getHyvyys()) {
