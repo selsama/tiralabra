@@ -11,3 +11,5 @@ Kissa voi liikkua viereisiin ruutuihin (ylös, alas, tai sivuille). Seinäpelaaj
 Peliä ohjataan klikkailemalla ruutuja. Siis kissapelaaja klikkaa ruutua johon haluaa siirtyä, ja seinäpelaaja ruutua jonka haluaa muuttaa seinäksi.
 
 Peli loppuu kun kissa pääsee reunaruutuun eli seinäpelaaja ei enää voi estää sitä poistumasta, tai kun kissa jää seinien ympäröimäksi. Uuden pelin voi aloittaa uusi peli-nappulalla.
+
+Komentorivikomennot: kts [readme]()

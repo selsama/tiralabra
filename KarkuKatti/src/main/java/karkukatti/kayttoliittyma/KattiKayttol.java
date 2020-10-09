@@ -12,8 +12,9 @@ import karkukatti.sovelluslogiikka.apuluokkia.Lista;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
@@ -35,9 +36,11 @@ public class KattiKayttol extends Application {
     private int pelaajat;
     private int seinienMaaraAlussa;
     private int pelilaudanKoko;
+    private Paint kissa;
 
     @Override
     public void init() {
+        this.teeKissa();
         this.pelaajat = 3;
         this.seinienMaaraAlussa = 5;
         this.pelilaudanKoko = 11;
@@ -102,7 +105,7 @@ public class KattiKayttol extends Application {
                 alue.getChildren().add(pelilauta[i][j]);
             }
         }
-        pelilauta[peli.getKissanSijainti().getX()][peli.getKissanSijainti().getY()].setFill(Color.BROWN);
+        pelilauta[peli.getKissanSijainti().getX()][peli.getKissanSijainti().getY()].setFill(this.kissa);
         Lista<Sijainti> seinat = peli.getAlkuseinat();
         for (int i = 0; i < seinat.getKoko(); i++) {
             pelilauta[seinat.hae(i).getX()][seinat.hae(i).getY()].setFill(Color.GREENYELLOW);
@@ -163,6 +166,11 @@ public class KattiKayttol extends Application {
         Label viesti = new Label("Aloita uusi peli ylävalikosta tai siirry asetuksiin");
         VBox kaikki = new VBox();
         kaikki.getChildren().addAll(ylavalikko, peliLoppu, kumpiVoitti, viesti);
+        if (teksti.equals("Kissa voitti!")) {
+            Rectangle voittaja = new Rectangle(400, 400);
+            voittaja.setFill(kissa);
+            kaikki.getChildren().add(voittaja);
+        }        
         peliohinakyma = new Scene(kaikki, 500, 500);
     }
     
@@ -217,7 +225,7 @@ public class KattiKayttol extends Application {
     }
     
     private void siirraKissaa(Sijainti uusi, Sijainti kissanVanha) {
-        pelilauta[uusi.getX()][uusi.getY()].setFill(Color.BROWN);
+        pelilauta[uusi.getX()][uusi.getY()].setFill(this.kissa);
         pelilauta[kissanVanha.getX()][kissanVanha.getY()].setFill(Color.BLUEVIOLET);
         vuoro.setText("Seinäpelaajan vuoro");
     }
@@ -225,6 +233,15 @@ public class KattiKayttol extends Application {
     private void teeSeinaruutu(Sijainti s) {
         pelilauta[s.getX()][s.getY()].setFill(Color.GREENYELLOW);
         vuoro.setText("Kissan vuoro");
+    }
+    
+    private void teeKissa() {
+        try {
+            this.kissa = new ImagePattern(new Image("file:katti.png"));
+        } catch (Exception e) {
+            this.kissa = Color.BROWN;
+            System.out.println("hmm.. " + e.getMessage());
+        }
     }
     
     public static void main(String[] args) {
