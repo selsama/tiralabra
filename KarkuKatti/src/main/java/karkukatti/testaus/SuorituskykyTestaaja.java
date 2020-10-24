@@ -19,7 +19,7 @@ public class SuorituskykyTestaaja {
     
     public static void main(String[] args) {
         int toistoja = 100;
-        for (int i = 10; i <= 100; i*=10) {
+        for (int i = 10; i <= 1000; i*=10) {
             testaaAlustusta(i, toistoja);
             testaaSiirronValintaa(i, toistoja);
             System.out.println("");
