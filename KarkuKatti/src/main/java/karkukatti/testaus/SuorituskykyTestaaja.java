@@ -18,7 +18,7 @@ public class SuorituskykyTestaaja {
     private static Tekoaly t;
     
     public static void main(String[] args) {
-        int toistoja = 20;
+        int toistoja = 100;
         for (int i = 10; i <= 100; i*=10) {
             testaaAlustusta(i, toistoja);
             testaaSiirronValintaa(i, toistoja);
@@ -63,16 +63,21 @@ public class SuorituskykyTestaaja {
         boolean[][] s = p.getSeinat();
         Sijainti k = p.getKissanSijainti();
         long[] ajat = new long[monestiko];
+        long yht = 0;
         for (int i = 0; i < monestiko; i++) {
             long t = System.nanoTime();
             valitseSiirto(s, k, i % 2 == 0);
             t = System.nanoTime() - t;
             ajat[i] = t;
+            yht += t;
         }
         Arrays.sort(ajat);
         double med = ajat[monestiko / 2] / 1000000.0;
+        double ka = yht / monestiko / 1000000.0;
         System.out.println("Tekoälyn siirron valinnan keston mediaani " + koko + "x" +
                 koko + "-laudalla: " + med + " ms");
+        System.out.println("Tekoälyn siirron valinnan keston keskiarvo " + koko + "x" +
+                koko + "-laudalla: " + ka + " ms");
     }
     
     private static void valitseSiirto(boolean[][] seinat, Sijainti kissa, boolean kissanVuoro) {

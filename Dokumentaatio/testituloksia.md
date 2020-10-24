@@ -79,9 +79,36 @@ Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 38.1103 ms
 
 Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 209.205917 ms
 
---> Ero on todella huomattava. 
+--> Ero on huomattava. 
 
 Huomataan, että siirron valinta on hitaampaa 10x10 laudalla kuin 100x100. Algoritmi luultavasti "jumittaa" jotakin yrittäessään tutkia tilannetta monta rekursiota yli siitä, kun peli päättyy. Ihmetellään, mistä tämä voisi johtua.
+
+### Poistettu ylimääräisiä taulukon kopiointeja
+
+Syvyys 2:
+
+Pelin alustuksen keston mediaani 10x10-laudalla: 0.010888 ms
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 3.26335 ms
+
+Pelin alustuksen keston mediaani 100x100-laudalla: 0.035451 ms
+Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 5.360339 ms
+
+Pelin alustuksen keston mediaani 1000x1000-laudalla: 0.316787 ms
+Tekoälyn siirron valinnan keston mediaani 1000x1000-laudalla: 1214.74785 ms
+
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 2.407825 ms
+
+Syvyys 4:
+
+Pelin alustuksen keston mediaani 10x10-laudalla: 0.01039 ms
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 302.595567 ms
+
+Pelin alustuksen keston mediaani 100x100-laudalla: 0.029831 ms
+Tekoälyn siirron valinnan keston mediaani 100x100-laudalla: 37.337349 ms
+
+Tekoälyn siirron valinnan keston mediaani 10x10-laudalla: 244.375101 ms
+
+
 
 ## Tasapainotestien tuloksia: 
 

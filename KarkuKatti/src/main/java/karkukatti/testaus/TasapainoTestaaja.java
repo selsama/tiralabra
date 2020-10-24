@@ -32,6 +32,6 @@ public class TasapainoTestaaja {
         }
         int pros = kissaVoitti / montakoPelattu * 100;
         System.out.println(otos + " pelin otoksesta " + koko + "x" + koko +
-                "-laudalla kissa voitti " + kissaVoitti);
+                "-laudalla kissa voitti " + kissaVoitti + " (" + pros + "%)");
     }
 }
