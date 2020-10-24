@@ -1,6 +1,6 @@
 ## Tiralabra
 
-Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahmon ympärille tämän yrittäessä pois pelialueelta. ([tähän tyyliin](https://www.crazygames.com/game/circle-the-cat))
+Toteutin tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahmon ympärille tämän yrittäessä pois pelialueelta. ([tähän tyyliin](https://www.crazygames.com/game/circle-the-cat))
 
 ### Dokumentaatio
 
@@ -8,7 +8,7 @@ Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahm
 
 [Määrittelydokumentti](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/m%C3%A4%C3%A4ritteludokumentti.md)
 
-[Toteutusdokumentti(kesken)](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/toteutusdokumentti.md)
+[Toteutusdokumentti](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/toteutusdokumentti.md)
 
 [Testausdokumentti](https://github.com/selsama/tiralabra/blob/master/Dokumentaatio/testausdokumentti.md)
 
@@ -17,7 +17,7 @@ Toteutan tekoälyn peliin, jossa tarkoituksena on rakentaa seiniä tietokonehahm
 
 ### Release
 
-[versio 3](https://github.com/selsama/tiralabra/releases/tag/v3)
+[versio 4](https://github.com/selsama/tiralabra/releases/tag/v4)
 
 ### Koodi
 
