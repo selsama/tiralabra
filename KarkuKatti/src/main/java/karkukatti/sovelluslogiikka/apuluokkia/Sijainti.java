@@ -64,6 +64,17 @@ public class Sijainti implements Comparable<Sijainti> {
         }
         return true;
     }
+    /**
+     * Tarkistaa, onko sijainti annetun kokoisen alueen reunaruutu.
+     * @param koko
+     * @return true, jos on, muuten false
+     */
+    public boolean onReunassa(int koko) {
+        if (x == 0 || x == koko - 1 || y == 0 || y == koko - 1) {
+            return true;
+        }
+        return false;
+    }
     
     @Override
     public int compareTo(Sijainti s) {

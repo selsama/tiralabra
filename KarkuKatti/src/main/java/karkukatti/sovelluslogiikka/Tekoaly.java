@@ -27,8 +27,8 @@ public class Tekoaly {
         } else {
             mahdollisetSiirrot = this.getTyhjat(seinat);
         }
-        int kuinkaSyvalle = 2;
-        Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle, -1);
+        int kuinkaSyvalle = 3;
+        Siirto siirto = this.minMax(this.teeUusiTaulukko(seinat), kissa, kissaPelaa, mahdollisetSiirrot, 1, kuinkaSyvalle, -1, 1001);
         return siirto.getKohde();
     }
     /**
@@ -41,7 +41,7 @@ public class Tekoaly {
      * @param montakoKierrostaHalutaan kuinka syvä rekursio halutaan
      * @return paras Siirto tässä tilanteessa (Sijainti ja hyvyysarvo)
      */
-    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan, double edellisenTasonParas) {
+    public Siirto minMax(boolean[][] seinat, Sijainti kissa, boolean onkoKissanKierros, Sijainti[] mihinVoiSiirtaa, int moneskoKierros, int montakoKierrostaHalutaan, double alpha, double beta) {
         Siirto paras = null;
         for (int i = 0; i < mihinVoiSiirtaa.length; i++) { // käydään läpi mahdolliset siirtovaihtoehdot
             Sijainti siirronKohde = mihinVoiSiirtaa[i];
@@ -50,30 +50,21 @@ public class Tekoaly {
             }
             Siirto uusi;
             if (moneskoKierros == montakoKierrostaHalutaan) { // jos ollaan tarpeeksi syvällä vaihtoehtopuussa, lasketaan kuinka hyvä siirto on kyseessä laskeTilanteenHyvyys-metodilla
-                if (onkoKissanKierros) { //jos on kissan kierros, tämä tarkoittaa että siiroonKohde on kissan uusi sijainti
-                    Double hyvyys = this.laskeTilanteenHyvyys(seinat, siirronKohde);
-                    uusi = new Siirto(siirronKohde, hyvyys);
-                } else { // jos ei ole kissan vuoro, tämä tarkoittaa että siirronKohde on uuden seinän sijainti. tehdään uusi taulukko seinille, ettei algoritmi flippaa
-                    boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
-                    uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
-                    uusi = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(uudetSeinat, kissa));
-                }
+                uusi = this.minMaxinVikaTaso(onkoKissanKierros, seinat, siirronKohde, kissa);
             } else { // jos halutaan syvemmälle puuhun, kutsutaan minMaxia rekursiivisesti
-                double apu;
-                if (paras == null) {
-                    apu = -1;
-                } else {
-                    apu = paras.getHyvyys();
-                }
                 if (onkoKissanKierros) { // jos on kissan kierros, tämä tarkoittaa, että kutsuttava kierros on seinäpelaajan kierros, eli siirronKohde on kissan uusi sijainti, ja mahdolliset siirrot ovat kaikki tyhjät ruudut
-                    Sijainti[] uudetVaihtoehdot = this.getTyhjat(seinat);
-                    uusi = new Siirto(siirronKohde,
-                            this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan, apu).getHyvyys());
+                    if (siirronKohde.onReunassa(seinat.length)) { // jos kissa pääsi reunaan, lopetetaan rekursio
+                        uusi = new Siirto(siirronKohde, 1000);
+                    } else {
+                        Sijainti[] uudetVaihtoehdot = this.getTyhjat(seinat);
+                        uusi = new Siirto(siirronKohde,
+                               this.minMax(seinat, siirronKohde, false, uudetVaihtoehdot, moneskoKierros + 1, montakoKierrostaHalutaan, alpha, beta).getHyvyys());
+                    }
                 } else { // jos ei ole kissan vuoro, tämä tarkoittaa että kutsuttava kierros on kissan kierros, eli kissa pysyy paikoillaan, seinät ovat muuten samat mutta siirronKohde muutetaan seinäruuduksi, ja vaihtoehdot ovat uuden sijainnin viereiset ruudut
-                    boolean[][] uudetSeinat = this.teeUusiTaulukko(seinat);
-                    uudetSeinat[siirronKohde.getX()][siirronKohde.getY()] = true;
+                    seinat[siirronKohde.getX()][siirronKohde.getY()] = true;
                     uusi = new Siirto(siirronKohde, 
-                            this.minMax(uudetSeinat, kissa, true, this.getNaapurit(kissa), moneskoKierros + 1, montakoKierrostaHalutaan, apu).getHyvyys());
+                            this.minMax(seinat, kissa, true, this.getNaapurit(kissa), moneskoKierros + 1, montakoKierrostaHalutaan, alpha, beta).getHyvyys());
+                    seinat[siirronKohde.getX()][siirronKohde.getY()] = false;
                 }
             }
             if (paras == null) { // jos kyseessä on ensimmäinen laskettava arvo tällä tasolla, merkitään se parhaaksi. muuten verrataan olemassaolevaan
@@ -82,11 +73,10 @@ public class Tekoaly {
                 if (uusi.getHyvyys() == 1000) {
                     return uusi;
                 }
-                if (edellisenTasonParas != -1) {
-                    if (uusi.getHyvyys() > edellisenTasonParas) {
-                        return uusi;
-                    }
+                if (uusi.getHyvyys() >= beta) {
+                    return uusi;
                 }
+                alpha = alpha > uusi.getHyvyys() ? alpha : uusi.getHyvyys();
                 if (paras.getHyvyys() < uusi.getHyvyys()) {
                     paras = uusi;
                 }
@@ -94,11 +84,10 @@ public class Tekoaly {
                 if (uusi.getHyvyys() == 0) {
                     return uusi;
                 }
-                if (edellisenTasonParas != -1) {
-                    if (uusi.getHyvyys() < edellisenTasonParas) {
+                if (uusi.getHyvyys() <= alpha) {
                         return uusi;
-                    }
                 }
+                beta = beta < uusi.getHyvyys() ? beta : uusi.getHyvyys();
                 if (paras.getHyvyys() > uusi.getHyvyys()) {
                     paras = uusi;
                 }
@@ -112,6 +101,19 @@ public class Tekoaly {
             }
         }
         return paras;
+    }
+    
+    private Siirto minMaxinVikaTaso(boolean onkoKissanKierros, boolean[][] seinat, Sijainti siirronKohde, Sijainti kissa) {
+        Siirto palautettava = null;
+        if (onkoKissanKierros) { //jos on kissan kierros, tämä tarkoittaa että siiroonKohde on kissan uusi sijainti
+            Double hyvyys = this.laskeTilanteenHyvyys(seinat, siirronKohde);
+            palautettava = new Siirto(siirronKohde, hyvyys);
+        } else { // jos ei ole kissan vuoro, tämä tarkoittaa että siirronKohde on uuden seinän sijainti.
+            seinat[siirronKohde.getX()][siirronKohde.getY()] = true;
+            palautettava = new Siirto(siirronKohde, this.laskeTilanteenHyvyys(seinat, kissa));
+            seinat[siirronKohde.getX()][siirronKohde.getY()] = false;
+        }
+        return palautettava;
     }
     
     /**
@@ -312,9 +314,10 @@ public class Tekoaly {
     private boolean[][] teeUusiTaulukko(boolean [][] seinat) {
         boolean[][] uusi = new boolean[seinat.length][seinat.length];
         for (int i = 0; i < seinat.length; i++) {
-            for (int j = 0; j < seinat.length; j++) {
-                uusi[i][j] = seinat[i][j];
-            }
+            System.arraycopy(seinat[i], 0, uusi[i], 0, seinat.length);
+//            for (int j = 0; j < seinat.length; j++) {
+//                uusi[i][j] = seinat[i][j];
+//            }            
         }
         return uusi;
     }
